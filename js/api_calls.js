@@ -1,5 +1,3 @@
-const { Collection } = require("mongoose");
-
 const ACCESS_KEY = "94145170-a02c-430c-afd257165891-d3a1-44cf";
 const LIBRARY_ID = 13766;
 
@@ -41,7 +39,7 @@ function getCollections() {
     let promises = [];
 
     collections.forEach(collection => {
-        
+
     })
 }
 
