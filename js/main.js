@@ -1,5 +1,6 @@
 const KEYS_TO_BE_REGISTERED = ["MediaPause", "MediaPlay", "MediaPlayPause", "MediaStop", "MediaFastForward", "MediaRewind"];
 
+
 window.onload = function () {
 	initialize();
 };
