@@ -9,14 +9,32 @@ const options = {
     }
 };
 
-// Get collections
-function getCollections() {
-    const url = `http://video.bunnycdn.com/library/${LIBRARY_ID}/collections`;
+let collections = [];
+
+// Get collection list
+function getCollectionList() {
+    const url = `http://video.bunnycdn.com/library/${LIBRARY_ID}/collections??page=1&itemsPerPage=1000&orderBy=date`;
 
     fetch(url, options)
-    .then(response => response.json())
-    .then(response => console.log(response))
+    .then((response) => {
+        if (response.status >= 200 && response.status <= 299) {
+            return response.json();
+        } 
+        else {
+            throw Error(response.statusText);
+        }
+    })
+    .then(response => {
+        //console.log(response);
+        collections = response.items;
+        getCollections();
+    })
     .catch(err => console.error(err));
+}
+
+
+function getCollections() {
+
 }
 
 

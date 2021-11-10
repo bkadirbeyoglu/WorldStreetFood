@@ -31,5 +31,5 @@ function initialize() {
 		selector: "input, button"
 	});
 
-	getCollections();
+	getCollectionList();
 }
