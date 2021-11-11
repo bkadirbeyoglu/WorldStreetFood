@@ -9,3 +9,19 @@ html, body {
     pointer-events: none;
 }
 
+
+#splash-screen {
+	background-image: url('/images/splash_fhd.jpg');
+	width: 1920px;
+	height: 1080px;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+
+
+
+.hidden {
+	display: none;
+}

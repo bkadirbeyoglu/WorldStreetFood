@@ -66,9 +66,12 @@ function getVideos() {
                 collections[index].videos = res.value.items;
             }
         });
-        console.log(collections);
-    });
+        //console.log(collections);
 
+        document.getElementById("splash-screen").classList.add("hidden");
+
+        generateRows();
+    });
 }
 
 

@@ -31,5 +31,10 @@ function initialize() {
 		selector: "input, button"
 	});
 
-	getCollectionList();
+	setTimeout(() => getCollectionList(), 5000);
+}
+
+
+function generateRows() {
+	
 }
