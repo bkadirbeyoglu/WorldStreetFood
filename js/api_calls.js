@@ -28,19 +28,67 @@ function getCollectionList() {
         //console.log(response);
         collections = response.items;
         if (collections.length > 0) {
-            getCollections();
+            getVideos();
         }
     })
     .catch(err => console.error(err));
 }
 
 
-function getCollections() {
+function getVideos() {
     let promises = [];
 
     collections.forEach(collection => {
+        const _guid = collection.guid;
+        const _url = `http://video.bunnycdn.com/library/${LIBRARY_ID}/videos?page=1&itemsPerPage=100&collection=${_guid}&orderBy=date`;
 
-    })
+        promises.push(tryAtMost(5, function(resolve, reject) {
+            fetch(_url, OPTIONS)
+            .then((response) => {
+                if (response.status >= 200 && response.status <= 299) {
+                    return response.json();
+                } 
+                else {
+                    throw Error(response.statusText);
+                }
+            })
+            .then(response => resolve(response))
+            .catch(err => {
+                console.error(err);
+                reject(err);
+            });
+        }));
+    });
+
+    Promise.allSettled(promises).then(function(results) {
+        results.forEach((res, index) => {
+            if (res.status == "fulfilled") {
+                collections[index].videos = res.value.items;
+            }
+        });
+        console.log(collections);
+    });
+
 }
 
 
+function tryAtMost(triesLeft, executor) {
+    if (triesLeft < 5) {
+        console.log("trying, tries left: " + triesLeft);
+    }
+    --triesLeft;
+    return new Promise(executor)
+        .catch(err => triesLeft > 0 ? tryAtMost(triesLeft, executor) : Promise.reject(err));
+}
+
+
+// Polyfill for Promise.allSettled
+if (!Promise.allSettled) {
+	const rejectHandler = reason => ({ status: "rejected", reason });
+	const resolveHandler = value => ({ status: "fulfilled", value });
+
+	Promise.allSettled = function(promises) {
+		const convertedPromises = promises.map(p => Promise.resolve(p).then(resolveHandler, rejectHandler));
+		return Promise.all(convertedPromises);
+	};
+}
