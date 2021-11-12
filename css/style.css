@@ -48,7 +48,7 @@ html, body {
 }
 
 #collections {
-	width: 1760px;
+	width: 1840px;
 	height: 500px;
 	margin-bottom: 40px;
 	overflow: hidden;
@@ -64,34 +64,45 @@ html, body {
 	width: 100%;
 	height: 540px;
 	margin-left: 80px;
-	margin-right: 80px;
 	overflow: hidden;
 }
 
 .collection-row {
-	width: 1760px;
-	height: 264px;
+	width: 1840px;
+	height: 284px;
+	margin-bottom: 25px;
 }
 
 .collection-row > div:first-child {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
-	height: 40px;
+	height: 50px;
 }
 
 .collection-title {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	font: 28px 'SamsungSVD_Latin Medium';
 	font-weight: bold;
+	margin-bottom: 10px;
 }
 
 .video-number {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	font: 28px 'SamsungSVD_Latin Medium';
 	font-weight: bold;
+	margin-right: 80px;
 }
 
 .video-list {
 	display: flex;
+	align-items: center;
 	height: 224px;
 	overflow: hidden;
 }
@@ -101,8 +112,8 @@ html, body {
 	flex-shrink: 0;
 	width: 384px;
 	height: 216px;
-	margin-left: 20px;
-	margin-right: 20px;
+	margin-left: 15px;
+	margin-right: 15px;
 	border: 1px solid wheat;
 }
 

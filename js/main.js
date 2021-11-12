@@ -54,11 +54,11 @@ function buildCollections() {
 		let divCollectionTitle = divCollectionRow.querySelector(".collection-title");
 		divCollectionTitle.innerHTML = collection.name;
 		let divVideoNumber = divCollectionRow.querySelector(".video-number");
-		divVideoNumber.innerHTML = Number(index + 1) + " of " + collection.videoCount;
+		divVideoNumber.innerHTML = "1 of " + collection.videoCount;
 
 		collection.videos.forEach((video, index) => {
 			let divVideo = videoListItemTemplate[0].cloneNode(true);
-			divVideo.id = "video" + index;
+			divVideo.id = "video-" + index;
 			divVideo.setAttribute("tabindex", "-1");
 			divVideo.innerHTML = video.title;
 			let divVideoList = divCollectionRow.querySelector(".video-list");
