@@ -47,6 +47,8 @@ function build() {
 		divCollectionRow.id = "collection-" + index;
 		let divCollectionTitle = divCollectionRow.querySelector(".collection-title");
 		divCollectionTitle.innerHTML = collection.name;
+		let divVideoNumber = divCollectionRow.querySelector(".video-number");
+		divVideoNumber.innerHTML = Number(index + 1) + " of " + collection.videoCount;
 
 		collectionsScreen.children[1].appendChild(divCollectionRow);
 	});
