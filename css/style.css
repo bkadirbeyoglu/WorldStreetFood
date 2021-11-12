@@ -47,6 +47,13 @@ html, body {
 	margin-bottom: 20px;
 }
 
+#collections {
+	width: 1760px;
+	height: 500px;
+	margin-bottom: 40px;
+	overflow: hidden;
+}
+
 
 
 
@@ -58,6 +65,7 @@ html, body {
 	height: 540px;
 	margin-left: 80px;
 	margin-right: 80px;
+	overflow: hidden;
 }
 
 .collection-row {
@@ -83,14 +91,19 @@ html, body {
 }
 
 .video-list {
+	display: flex;
 	height: 224px;
+	overflow: hidden;
 }
 
 .video-list-item {
+	display: flex;
+	flex-shrink: 0;
 	width: 384px;
 	height: 216px;
 	margin-left: 20px;
 	margin-right: 20px;
+	border: 1px solid wheat;
 }
 
 .hidden {

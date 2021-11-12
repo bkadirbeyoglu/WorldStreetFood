@@ -35,13 +35,19 @@ function initialize() {
 }
 
 
-function build() {
-	let collectionsScreen = document.getElementById("collections-screen");
+function buildCollections() {
+	let divCollections = document.getElementById("collections");
 
-	let template = document.getElementById("collection-row-template").innerHTML.trim();
-	let holder = document.createElement("div");
-	holder.innerHTML = template;
-	let collectionRowTemplate = holder.childNodes;
+	let templateCR = document.getElementById("collection-row-template").innerHTML.trim();
+	let holderCR = document.createElement("div");
+	holderCR.innerHTML = templateCR;
+	let collectionRowTemplate = holderCR.childNodes;
+
+	let templateVLI = document.getElementById("video-list-item-template").innerHTML.trim();
+	let holderVLI = document.createElement('div');
+	holderVLI.innerHTML = templateVLI;
+	let videoListItemTemplate = holderVLI.childNodes;
+
 	collections.forEach((collection, index) => {
 		let divCollectionRow = collectionRowTemplate[0].cloneNode(true);
 		divCollectionRow.id = "collection-" + index;
@@ -50,23 +56,15 @@ function build() {
 		let divVideoNumber = divCollectionRow.querySelector(".video-number");
 		divVideoNumber.innerHTML = Number(index + 1) + " of " + collection.videoCount;
 
-		collectionsScreen.children[1].appendChild(divCollectionRow);
-	});
-
-
-
-
-	/* let template = document.getElementById("video-list-item-template").innerHTML.trim();
-	let holder = document.createElement('div');
-	holder.innerHTML = template;
-	let videoListItemTemplate = holder.childNodes;
-
-	collections[0].videos.forEach((video, index) => {
-		let divVideo = videoListItemTemplate[0].cloneNode(true);
-		divVideo.id = "video" + index;
-		divVideo.setAttribute("tabindex", "-1");
-		divVideo.innerHTML = video.title;
+		collection.videos.forEach((video, index) => {
+			let divVideo = videoListItemTemplate[0].cloneNode(true);
+			divVideo.id = "video" + index;
+			divVideo.setAttribute("tabindex", "-1");
+			divVideo.innerHTML = video.title;
+			let divVideoList = divCollectionRow.querySelector(".video-list");
+			divVideoList.appendChild(divVideo);
+		});
 		
-		collectionsScreen.appendChild(divVideo);
-	}); */
+		divCollections.appendChild(divCollectionRow);
+	});
 }
