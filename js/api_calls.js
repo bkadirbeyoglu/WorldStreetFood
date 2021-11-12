@@ -28,14 +28,14 @@ function getCollectionList() {
         //console.log(response);
         collections = response.items;
         if (collections.length > 0) {
-            getVideos();
+            getVideosInCollections();
         }
     })
     .catch(err => console.error(err));
 }
 
 
-function getVideos() {
+function getVideosInCollections() {
     let promises = [];
 
     collections.forEach(collection => {
@@ -69,8 +69,8 @@ function getVideos() {
         //console.log(collections);
 
         document.getElementById("splash-screen").classList.add("hidden");
-
-        generateRows();
+        document.getElementById("collections-screen").classList.remove("hidden");
+        build();
     });
 }
 

@@ -28,13 +28,43 @@ function initialize() {
 
 	SpatialNavigation.init();
 	SpatialNavigation.add({
-		selector: "input, button"
+		selector: "input, button, .video-list-item"
 	});
 
 	setTimeout(() => getCollectionList(), 5000);
 }
 
 
-function generateRows() {
-	
+function build() {
+	let collectionsScreen = document.getElementById("collections-screen");
+
+	let template = document.getElementById("collection-row-template").innerHTML.trim();
+	let holder = document.createElement("div");
+	holder.innerHTML = template;
+	let collectionRowTemplate = holder.childNodes;
+	collections.forEach((collection, index) => {
+		let divCollectionRow = collectionRowTemplate[0].cloneNode(true);
+		divCollectionRow.id = "collection-" + index;
+		let divCollectionTitle = divCollectionRow.querySelector(".collection-title");
+		divCollectionTitle.innerHTML = collection.name;
+
+		collectionsScreen.children[1].appendChild(divCollectionRow);
+	});
+
+
+
+
+	/* let template = document.getElementById("video-list-item-template").innerHTML.trim();
+	let holder = document.createElement('div');
+	holder.innerHTML = template;
+	let videoListItemTemplate = holder.childNodes;
+
+	collections[0].videos.forEach((video, index) => {
+		let divVideo = videoListItemTemplate[0].cloneNode(true);
+		divVideo.id = "video" + index;
+		divVideo.setAttribute("tabindex", "-1");
+		divVideo.innerHTML = video.title;
+		
+		collectionsScreen.appendChild(divVideo);
+	}); */
 }
