@@ -41,10 +41,25 @@ html, body {
 	margin-top: 40px;
 }
 
-#video-description {
+#video-title-and-description {
+	display: flex;
+	flex-direction: column;
 	height: 400px;
 	margin-top: 20px;
 	margin-bottom: 20px;
+}
+
+#video-title {
+	height: 100px;
+	margin-left: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#video-description {
+	height: 220px;
+	margin-left: 20px;
+	margin-left: 20px;
 }
 
 #collections {

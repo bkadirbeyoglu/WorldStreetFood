@@ -1,6 +1,7 @@
 const KEYS_TO_BE_REGISTERED = ["MediaPause", "MediaPlay", "MediaPlayPause", "MediaStop", "MediaFastForward", "MediaRewind"];
 
-const divVideoTitleAndDescription = document.getElementById("video-title-and-description");
+const divVideoTitle = document.getElementById("video-title");
+const divVideoDescription = document.getElementById("video-description");
 
 
 window.onload = function () {
@@ -49,8 +50,8 @@ function initialize() {
 		//console.log(title);
 		let description = str.split("|")[1];
 		//console.log(subtitle);
-		divVideoTitleAndDescription.innerHTML = title + "<BR /><BR />" + description;
-		
+		divVideoTitle.innerHTML = title;
+		divVideoDescription.innerHTML = description;
 	});
 
 	setTimeout(() => getCollectionList(), 5000);
