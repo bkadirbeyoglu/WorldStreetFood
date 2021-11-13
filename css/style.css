@@ -117,6 +117,11 @@ html, body {
 	border: 1px solid wheat;
 }
 
+.video-list-item:focus {
+	outline: 0;
+	border: 2px solid red;
+}
+
 .hidden {
 	display: none;
 }

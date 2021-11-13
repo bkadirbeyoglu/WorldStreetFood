@@ -70,7 +70,7 @@ function getVideosInCollections() {
 
         document.getElementById("splash-screen").classList.add("hidden");
         document.getElementById("collections-screen").classList.remove("hidden");
-        buildCollections();
+        buildCollectionsScreen();
     });
 }
 

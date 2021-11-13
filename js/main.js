@@ -1,5 +1,7 @@
 const KEYS_TO_BE_REGISTERED = ["MediaPause", "MediaPlay", "MediaPlayPause", "MediaStop", "MediaFastForward", "MediaRewind"];
 
+const divVideoDescription = document.getElementById("video-description");
+
 
 window.onload = function () {
 	initialize();
@@ -31,11 +33,23 @@ function initialize() {
 		selector: "input, button, .video-list-item"
 	});
 
+	document.addEventListener("sn:focused", function(event) {
+		//console.log(event);
+
+		let focusedElement = event.target;
+		let firstPart = focusedElement.id.split("-")[0];
+		let secondPart = focusedElement.id.split("-")[1];
+		let collectionIndex = Number(firstPart.split("c")[1]);
+		let videoIndex = Number(secondPart.split("v")[1]);
+		divVideoDescription.innerHTML = collections[collectionIndex].videos[videoIndex].title;
+		
+	});
+
 	setTimeout(() => getCollectionList(), 5000);
 }
 
 
-function buildCollections() {
+function buildCollectionsScreen() {
 	let divCollections = document.getElementById("collections");
 
 	let templateCR = document.getElementById("collection-row-template").innerHTML.trim();
@@ -48,18 +62,22 @@ function buildCollections() {
 	holderVLI.innerHTML = templateVLI;
 	let videoListItemTemplate = holderVLI.childNodes;
 
-	collections.forEach((collection, index) => {
+	collections.forEach((collection, collIndex) => {
 		let divCollectionRow = collectionRowTemplate[0].cloneNode(true);
-		divCollectionRow.id = "collection-" + index;
+		divCollectionRow.id = "collection-" + collIndex;
 		let divCollectionTitle = divCollectionRow.querySelector(".collection-title");
 		divCollectionTitle.innerHTML = collection.name;
 		let divVideoNumber = divCollectionRow.querySelector(".video-number");
 		divVideoNumber.innerHTML = "1 of " + collection.videoCount;
 
-		collection.videos.forEach((video, index) => {
+		let len = collection.videos.length;
+		collection.videos.forEach((video, vidIndex) => {
 			let divVideo = videoListItemTemplate[0].cloneNode(true);
-			divVideo.id = "video-" + index;
+			divVideo.id = "c" + collIndex + "-v" + vidIndex;
 			divVideo.setAttribute("tabindex", "-1");
+			if (vidIndex == len - 1) {
+				divVideo.setAttribute("data-sn-right", "");
+			}
 			divVideo.innerHTML = video.title;
 			let divVideoList = divCollectionRow.querySelector(".video-list");
 			divVideoList.appendChild(divVideo);
@@ -67,4 +85,8 @@ function buildCollections() {
 		
 		divCollections.appendChild(divCollectionRow);
 	});
+
+	var divFirstCollection = document.getElementById("collection-0");
+	var divFirstVideo = divFirstCollection.querySelector("#c0-v0");
+	SpatialNavigation.focus(divFirstVideo);
 }
