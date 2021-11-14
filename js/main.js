@@ -54,27 +54,22 @@ function initialize() {
 		let elementToGetFocus =  event.detail.nextElement;
 		let containerElement = blurredElement.parentElement;
 		if (elementToGetFocus != undefined) {	
-			if (elementToGetFocus.offsetLeft > blurredElement.offsetLeft) {
-				if (elementToGetFocus.offsetLeft >= (containerElement.scrollLeft + containerElement.offsetWidth * 0.90)) {		
-					containerElement.scrollLeft += elementToGetFocus.offsetLeft - blurredElement.offsetLeft;																	
+			if (event.detail.direction == "left" || event.detail.direction == "right") {
+				if (elementToGetFocus.offsetLeft > blurredElement.offsetLeft) {
+					if (elementToGetFocus.offsetLeft >= (containerElement.scrollLeft + 1751)) {		// 1751 -> document.getElementById("c0-v4").offsetLeft	
+						containerElement.scrollLeft += elementToGetFocus.offsetLeft - blurredElement.offsetLeft;																	
+					}
+				}
+				else {
+					if (elementToGetFocus.offsetLeft < (containerElement.scrollLeft + 509)) {		// 509 -> document.getElementById("c0-v1").offsetLeft				
+						containerElement.scrollLeft -= (blurredElement.offsetLeft - elementToGetFocus.offsetLeft);		
+					}
 				}
 			}
 			else {
-				if (elementToGetFocus.offsetLeft < (containerElement.scrollLeft + containerElement.offsetWidth * 0.15)) {					
-					containerElement.scrollLeft -= (blurredElement.offsetLeft - elementToGetFocus.offsetLeft);		
-				}
-			}
-
-			let collIndex = Number(elementToGetFocus.id.split("-")[0].split("c")[1]);
-			console.log(collIndex);
-			if (elementToGetFocus.offsetTop > blurredElement.offsetTop) {	
-				//document.getElementById("collections").scrollTop += elementToGetFocus.offsetTop - blurredElement.offsetTop;
-				document.getElementById("collections").scrollTop = collIndex * 309;								
-			}
-			else {
-				//document.getElementById("collections").scrollTop -= (blurredElement.offsetTop - elementToGetFocus.offsetTop);
-				document.getElementById("collections").scrollTop = collIndex * 309;
-			}
+				let collIndex = Number(elementToGetFocus.id.split("-")[0].split("c")[1]);
+				document.getElementById("collections").scrollTop = collIndex * 309;		// 309 = 284 + 25 (.collection-row height + .collection-row margin-bottom)					
+			}	
 		}
 	});
 
