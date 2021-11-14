@@ -12,7 +12,7 @@ const OPTIONS = {
 };
 
 let collections = [];
-let channelXml;
+let xmlDoc;
 
 
 function getChannelXML() {
@@ -41,12 +41,26 @@ function getChannelXML() {
             }
         })
         .then(response => {
-            if (window.DOMParser)
-			{
+            if (window.DOMParser) {
 				parser = new DOMParser();
 				xmlDoc = parser.parseFromString(response, "text/xml");
 
 				console.log(xmlDoc);
+
+                let _collections = [];
+
+                const itemsArr = Array.from(xmlDoc.getElementsByTagName("item"));
+                //console.log(itemsArr.length);
+                itemsArr.forEach(item => {
+                    //console.log(item.childNodes[0]);
+                    //console.log(item.getElementsByTagName("playlist")[0].childNodes[0].nodeValue);
+                    let _playlist = item.getElementsByTagName("playlist")[0].childNodes[0].nodeValue;
+                    if (!_collections.includes(_playlist)) {
+                        _collections.push(_playlist);
+                    }
+
+                });
+                console.log(_collections);
 			}
             /* if (collections.length > 0) {
                 getVideosInCollections();
