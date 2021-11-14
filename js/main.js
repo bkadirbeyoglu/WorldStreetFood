@@ -41,10 +41,12 @@ function initialize() {
 		let secondPart = focusedElement.id.split("-")[1];
 		let collectionIndex = Number(firstPart.split("c")[1]);
 		let videoIndex = Number(secondPart.split("v")[1]);
-		let str = collections[collectionIndex].videos[videoIndex].title;
+		/*let str = playlists[collectionIndex].items[videoIndex].title;
 		let _lastIndexOfDot = str.split("|")[0].lastIndexOf(".");
 		let title = str.substr(0, _lastIndexOfDot);
-		let description = str.split("|")[1];
+		let description = str.split("|")[1]; */
+		let title = playlists[collectionIndex].items[videoIndex].content.title;
+		let description = playlists[collectionIndex].items[videoIndex].content.description
 		divVideoTitle.innerHTML = title;
 		divVideoDescription.innerHTML = description;
 	});
@@ -102,16 +104,18 @@ function buildCollectionsScreen() {
 	holderVLI.innerHTML = templateVLI;
 	let videoListItemTemplate = holderVLI.childNodes;
 
-	collections.forEach((collection, collIndex) => {
+
+	// playlist = collection
+	playlists.forEach((collection, collIndex) => {
+		let len = collection.items.length;
 		let divCollectionRow = collectionRowTemplate[0].cloneNode(true);
 		divCollectionRow.id = "collection-" + collIndex;
 		let divCollectionTitle = divCollectionRow.querySelector(".collection-title");
-		divCollectionTitle.innerHTML = collection.name;
+		divCollectionTitle.innerHTML = collection.title;
 		let divVideoNumber = divCollectionRow.querySelector(".video-number");
-		divVideoNumber.innerHTML = "1 of " + collection.videoCount;
+		divVideoNumber.innerHTML = "1 of " + len;
 
-		let len = collection.videos.length;
-		collection.videos.forEach((video, vidIndex) => {
+		collection.items.forEach((video, vidIndex) => {
 			let divVideo = videoListItemTemplate[0].cloneNode(true);
 			divVideo.id = "c" + collIndex + "-v" + vidIndex;
 			divVideo.setAttribute("tabindex", "-1");

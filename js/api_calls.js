@@ -13,7 +13,7 @@ const OPTIONS = {
 
 let playlistTitles = [];
 let playlists = [];
-let channel;
+//let channel;
 
 
 function getChannelXML() {
@@ -44,22 +44,22 @@ function getChannelXML() {
         .then(response => {
             if (window.DOMParser) {
 				parser = new DOMParser();
-				xmlDoc = parser.parseFromString(response, "text/xml");
+				let xmlDoc = parser.parseFromString(response, "text/xml");
 				//console.log(xmlDoc);
 
                 let jsonData = new X2JS().xml2json(xmlDoc);
-                channel = jsonData.rss.channel;
+                let channel = jsonData.rss.channel;
                 //console.log(_channel.item[5].content.thumbnail.url);
                 
-                var lookup = {};
+                let lookup = {};
                 channel.item.forEach(item => {
                     let playlist = item.playlist;
                     if (!(playlist in lookup)) {
                         lookup[playlist] = 1;
-                        playlists.push(new Object({ title: playlist, videos: [] }));
+                        playlists.push(new Object({ title: playlist, items: [] }));
                     }
 
-                    playlists.find(pl => pl.title == playlist).videos.push(item);
+                    playlists.find(pl => pl.title == playlist).items.push(item);
                     
                     /* if (!playlistTitles.includes(item.playlist)) {
                         playlistTitles.push(item.playlist);
@@ -70,6 +70,10 @@ function getChannelXML() {
                 //console.log(playlistTitles);
                 console.log(playlists);
 
+                
+                document.getElementById("splash-screen").classList.add("hidden");
+                document.getElementById("collections-screen").classList.remove("hidden");
+                buildCollectionsScreen();
 			}
         })
         .catch(err => console.error(err));
