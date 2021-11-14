@@ -1,6 +1,5 @@
 const ACCESS_KEY = "94145170-a02c-430c-afd257165891-d3a1-44cf";
 const LIBRARY_ID = 13766;
-
 //http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml
 
 const OPTIONS = {
@@ -13,25 +12,9 @@ const OPTIONS = {
 
 let playlistTitles = [];
 let playlists = [];
-//let channel;
 
 
 function getChannelXML() {
-    /* let promise = new Promise(function(resolve, reject) {
-        getXML("http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml", function (error, data) {
-            if (error !== null) {
-                console.log(error);
-                reject(error);
-            }
-            else {
-                //console.log(data);
-                resolve(data);
-            }
-        });
-    });
-
-    return promise; */
-
     fetch("http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml", OPTIONS)
         .then((response) => {
             if (response.status >= 200 && response.status <= 299) {
@@ -60,17 +43,9 @@ function getChannelXML() {
                     }
 
                     playlists.find(pl => pl.title == playlist).items.push(item);
-                    
-                    /* if (!playlistTitles.includes(item.playlist)) {
-                        playlistTitles.push(item.playlist);
-                    } */
-
-                    
                 });
-                //console.log(playlistTitles);
                 console.log(playlists);
 
-                
                 document.getElementById("splash-screen").classList.add("hidden");
                 document.getElementById("collections-screen").classList.remove("hidden");
                 buildCollectionsScreen();
@@ -187,13 +162,3 @@ function getXML(url, callback) {
 	};
 	xhr.send();
 }
-
-
-const groupBy = (arr, key) => {
-    const initialValue = {};
-    return arr.reduce((acc, cval) => {
-        const myAttribute = cval[key];
-        acc[myAttribute] = [...(acc[myAttribute] || []), cval]
-        return acc;
-    }, initialValue);
-};

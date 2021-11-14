@@ -59,14 +59,12 @@ function initialize() {
 			if (event.detail.direction == "left" || event.detail.direction == "right") {
 				if (elementToGetFocus.offsetLeft > blurredElement.offsetLeft) {
 					if (elementToGetFocus.offsetLeft >= (containerElement.scrollLeft + containerElement.offsetWidth * 0.90)) {
-						//containerElement.scrollLeft += elementToGetFocus.offsetLeft - blurredElement.offsetLeft;		
-						containerElement.scrollLeft += 414								
+						containerElement.scrollLeft += 414;		// 414 = 384 + 15 + 15 (.video-list-item width + .video-list-item margin-left + .video-list-item.margin-right)							
 					}
 				}
 				else {
-					if (elementToGetFocus.offsetLeft < (containerElement.scrollLeft + containerElement.offsetWidth * 0.05)) {				
-						//containerElement.scrollLeft -= (blurredElement.offsetLeft - elementToGetFocus.offsetLeft);
-						containerElement.scrollLeft -= 414
+					if (elementToGetFocus.offsetLeft < (containerElement.scrollLeft + containerElement.offsetWidth * 0.05)) {
+						containerElement.scrollLeft -= 414;
 					}
 				}
 			}
@@ -77,19 +75,7 @@ function initialize() {
 		}
 	});
 
-	//setTimeout(() => getCollectionList(), 5000);
-	setTimeout(() => getChannelXML(), 5000);
-	/* setTimeout(function() {
-		getChannelXML().then(strXml => {
-			if (window.DOMParser)
-			{
-				parser = new DOMParser();
-				xmlDoc = parser.parseFromString(strXml, "text/xml");
-
-				console.log(xmlDoc);
-			}
-		});
-	}, 5000); */
+	setTimeout(() => getChannelXML(), 2000);
 }
 
 
@@ -127,7 +113,6 @@ function buildCollectionsScreen() {
 			if (vidIndex == len - 1) {
 				divVideo.setAttribute("data-sn-right", "");
 			}
-			//divVideo.innerHTML = video.title;
 			divVideo.style.backgroundImage = "url(\"" + video.content.thumbnail._url + "\")";
 			let divVideoList = divCollectionRow.querySelector(".video-list");
 			divVideoList.appendChild(divVideo);
