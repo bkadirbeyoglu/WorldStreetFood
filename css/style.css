@@ -4,7 +4,7 @@ html, body {
 	margin: 0px auto;
 	overflow: hidden;
 	color: #FFFFFF;
-	background-color: #21041d;
+	background-color: #000000;
     font: 24px 'SamsungSVD_Latin Medium';
     pointer-events: none;
 }
@@ -130,13 +130,14 @@ html, body {
 	height: 216px;
 	margin-left: 15px;
 	margin-right: 15px;
-	border: 1px solid wheat;
-	box-sizing: border-box;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .video-list-item:focus {
 	outline: 0;
-	border: 2px solid red;
+	border: 4px solid #61D2DF;
 }
 
 .hidden {

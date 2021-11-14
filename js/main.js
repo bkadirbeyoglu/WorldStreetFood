@@ -58,13 +58,15 @@ function initialize() {
 		if (elementToGetFocus != undefined) {	
 			if (event.detail.direction == "left" || event.detail.direction == "right") {
 				if (elementToGetFocus.offsetLeft > blurredElement.offsetLeft) {
-					if (elementToGetFocus.offsetLeft >= (containerElement.scrollLeft + 1751)) {		// 1751 -> document.getElementById("c0-v4").offsetLeft	
-						containerElement.scrollLeft += elementToGetFocus.offsetLeft - blurredElement.offsetLeft;																	
+					if (elementToGetFocus.offsetLeft >= (containerElement.scrollLeft + containerElement.offsetWidth * 0.90)) {
+						//containerElement.scrollLeft += elementToGetFocus.offsetLeft - blurredElement.offsetLeft;		
+						containerElement.scrollLeft += 414								
 					}
 				}
 				else {
-					if (elementToGetFocus.offsetLeft < (containerElement.scrollLeft + 509)) {		// 509 -> document.getElementById("c0-v1").offsetLeft				
-						containerElement.scrollLeft -= (blurredElement.offsetLeft - elementToGetFocus.offsetLeft);		
+					if (elementToGetFocus.offsetLeft < (containerElement.scrollLeft + containerElement.offsetWidth * 0.05)) {				
+						//containerElement.scrollLeft -= (blurredElement.offsetLeft - elementToGetFocus.offsetLeft);
+						containerElement.scrollLeft -= 414
 					}
 				}
 			}
@@ -119,10 +121,14 @@ function buildCollectionsScreen() {
 			let divVideo = videoListItemTemplate[0].cloneNode(true);
 			divVideo.id = "c" + collIndex + "-v" + vidIndex;
 			divVideo.setAttribute("tabindex", "-1");
+			if (vidIndex == 0) {
+				divVideo.setAttribute("data-sn-left", "");
+			}
 			if (vidIndex == len - 1) {
 				divVideo.setAttribute("data-sn-right", "");
 			}
-			divVideo.innerHTML = video.title;
+			//divVideo.innerHTML = video.title;
+			divVideo.style.backgroundImage = "url(\"" + video.content.thumbnail._url + "\")";
 			let divVideoList = divCollectionRow.querySelector(".video-list");
 			divVideoList.appendChild(divVideo);
 		});
