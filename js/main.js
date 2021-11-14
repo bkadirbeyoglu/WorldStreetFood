@@ -36,22 +36,46 @@ function initialize() {
 
 	document.addEventListener("sn:focused", function(event) {
 		//console.log(event);
-
 		let focusedElement = event.target;
 		let firstPart = focusedElement.id.split("-")[0];
 		let secondPart = focusedElement.id.split("-")[1];
 		let collectionIndex = Number(firstPart.split("c")[1]);
 		let videoIndex = Number(secondPart.split("v")[1]);
-		//divVideoDescription.innerHTML = collections[collectionIndex].videos[videoIndex].title;
-
 		let str = collections[collectionIndex].videos[videoIndex].title;
 		let _lastIndexOfDot = str.split("|")[0].lastIndexOf(".");
 		let title = str.substr(0, _lastIndexOfDot);
-		//console.log(title);
 		let description = str.split("|")[1];
-		//console.log(subtitle);
 		divVideoTitle.innerHTML = title;
 		divVideoDescription.innerHTML = description;
+	});
+
+	document.addEventListener("sn:willunfocus", function(event) {
+		let blurredElement = event.target;
+		let elementToGetFocus =  event.detail.nextElement;
+		let containerElement = blurredElement.parentElement;
+		if (elementToGetFocus != undefined) {	
+			if (elementToGetFocus.offsetLeft > blurredElement.offsetLeft) {
+				if (elementToGetFocus.offsetLeft >= (containerElement.scrollLeft + containerElement.offsetWidth * 0.90)) {		
+					containerElement.scrollLeft += elementToGetFocus.offsetLeft - blurredElement.offsetLeft;																	
+				}
+			}
+			else {
+				if (elementToGetFocus.offsetLeft < (containerElement.scrollLeft + containerElement.offsetWidth * 0.15)) {					
+					containerElement.scrollLeft -= (blurredElement.offsetLeft - elementToGetFocus.offsetLeft);		
+				}
+			}
+
+			let collIndex = Number(elementToGetFocus.id.split("-")[0].split("c")[1]);
+			console.log(collIndex);
+			if (elementToGetFocus.offsetTop > blurredElement.offsetTop) {	
+				//document.getElementById("collections").scrollTop += elementToGetFocus.offsetTop - blurredElement.offsetTop;
+				document.getElementById("collections").scrollTop = collIndex * 309;								
+			}
+			else {
+				//document.getElementById("collections").scrollTop -= (blurredElement.offsetTop - elementToGetFocus.offsetTop);
+				document.getElementById("collections").scrollTop = collIndex * 309;
+			}
+		}
 	});
 
 	setTimeout(() => getCollectionList(), 5000);
