@@ -11,8 +11,9 @@ const OPTIONS = {
     }
 };
 
-let collections = [];
-let xmlDoc;
+let playlistTitles = [];
+let playlists = [];
+let channel;
 
 
 function getChannelXML() {
@@ -44,27 +45,32 @@ function getChannelXML() {
             if (window.DOMParser) {
 				parser = new DOMParser();
 				xmlDoc = parser.parseFromString(response, "text/xml");
+				//console.log(xmlDoc);
 
-				console.log(xmlDoc);
-
-                let _collections = [];
-
-                const itemsArr = Array.from(xmlDoc.getElementsByTagName("item"));
-                //console.log(itemsArr.length);
-                itemsArr.forEach(item => {
-                    //console.log(item.childNodes[0]);
-                    //console.log(item.getElementsByTagName("playlist")[0].childNodes[0].nodeValue);
-                    let _playlist = item.getElementsByTagName("playlist")[0].childNodes[0].nodeValue;
-                    if (!_collections.includes(_playlist)) {
-                        _collections.push(_playlist);
+                let jsonData = new X2JS().xml2json(xmlDoc);
+                channel = jsonData.rss.channel;
+                //console.log(_channel.item[5].content.thumbnail.url);
+                
+                var lookup = {};
+                channel.item.forEach(item => {
+                    let playlist = item.playlist;
+                    if (!(playlist in lookup)) {
+                        lookup[playlist] = 1;
+                        playlists.push(new Object({ title: playlist, videos: [] }));
                     }
 
+                    playlists.find(pl => pl.title == playlist).videos.push(item);
+                    
+                    /* if (!playlistTitles.includes(item.playlist)) {
+                        playlistTitles.push(item.playlist);
+                    } */
+
+                    
                 });
-                console.log(_collections);
+                //console.log(playlistTitles);
+                console.log(playlists);
+
 			}
-            /* if (collections.length > 0) {
-                getVideosInCollections();
-            } */
         })
         .catch(err => console.error(err));
 }
@@ -177,3 +183,13 @@ function getXML(url, callback) {
 	};
 	xhr.send();
 }
+
+
+const groupBy = (arr, key) => {
+    const initialValue = {};
+    return arr.reduce((acc, cval) => {
+        const myAttribute = cval[key];
+        acc[myAttribute] = [...(acc[myAttribute] || []), cval]
+        return acc;
+    }, initialValue);
+};
