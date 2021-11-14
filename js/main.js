@@ -73,7 +73,19 @@ function initialize() {
 		}
 	});
 
-	setTimeout(() => getCollectionList(), 5000);
+	//setTimeout(() => getCollectionList(), 5000);
+	setTimeout(() => getChannelXML(), 5000);
+	/* setTimeout(function() {
+		getChannelXML().then(strXml => {
+			if (window.DOMParser)
+			{
+				parser = new DOMParser();
+				xmlDoc = parser.parseFromString(strXml, "text/xml");
+
+				console.log(xmlDoc);
+			}
+		});
+	}, 5000); */
 }
 
 

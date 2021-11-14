@@ -16,20 +16,43 @@ let channelXml;
 
 
 function getChannelXML() {
-    let promise = new Promise(function(resolve, reject) {
+    /* let promise = new Promise(function(resolve, reject) {
         getXML("http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml", function (error, data) {
             if (error !== null) {
                 console.log(error);
                 reject(error);
             }
             else {
-                console.log(data);
+                //console.log(data);
                 resolve(data);
             }
         });
     });
 
-    return promise;
+    return promise; */
+
+    fetch("http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml", OPTIONS)
+        .then((response) => {
+            if (response.status >= 200 && response.status <= 299) {
+                return response.text();
+            } 
+            else {
+                throw Error(response.statusText);
+            }
+        })
+        .then(response => {
+            if (window.DOMParser)
+			{
+				parser = new DOMParser();
+				xmlDoc = parser.parseFromString(response, "text/xml");
+
+				console.log(xmlDoc);
+			}
+            /* if (collections.length > 0) {
+                getVideosInCollections();
+            } */
+        })
+        .catch(err => console.error(err));
 }
 
 function getCollectionList() {
