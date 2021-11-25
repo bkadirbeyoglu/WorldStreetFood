@@ -6,8 +6,6 @@ let wsfPlayer = {
 
 	hls: undefined,
 
-	bandwidthEstimate: undefined,
-
 	isPlaying: false,
 	
 
@@ -39,20 +37,16 @@ let wsfPlayer = {
 					videoEl.play();
 				});
 
-				wsfPlayer.hls.on(Hls.Events.FRAG_BUFFERED, function(event, data) {
-					wsfPlayer.bandwidth = data.stats.bwEstimate;
-				});
-
 				/*hls.on(Hls.Events.ERROR, function (event, data) {
 					if (data.fatal) {
 						switch(data.type) {
 							case Hls.ErrorTypes.NETWORK_ERROR:
 								// try to recover network error
-								log("fatal network error encountered, try to recover");
+								console.log("fatal network error encountered, try to recover");
 								hls.startLoad();
 								break;
 							case Hls.ErrorTypes.MEDIA_ERROR:
-								log("fatal media error encountered, try to recover");
+								console.log("fatal media error encountered, try to recover");
 								hls.recoverMediaError();
 								break;
 							default:
@@ -84,7 +78,6 @@ let wsfPlayer = {
 		if (wsfPlayer.hls != undefined) {
 			wsfPlayer.hls.stopLoad();
 			wsfPlayer.hls.destroy();
-			wsfPlayer.bandwidth = undefined;
 		}
 	},
 
@@ -138,7 +131,6 @@ let wsfPlayer = {
 
 	addEventListeners: function() {
 		let videoEl = this.videoElement;
-		let _hls = this.hls;
 		if (videoEl != undefined) {
 			videoEl.addEventListener("loadstart", function() {
 				console.log("started loading...");
