@@ -81,6 +81,11 @@ html, body {
 	display: none;
 }
 
+#wsf-video {
+	width: 1920px;
+  	height: 1080px;
+}
+
 
 
 

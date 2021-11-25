@@ -6,6 +6,8 @@ const collectionsScreen = document.getElementById("collections-screen");
 const divVideoTitle = document.getElementById("video-title");
 const divVideoDescription = document.getElementById("video-description");
 
+let lastFocusedItem;
+
 
 window.onload = function () {
 	initialize();
@@ -32,6 +34,8 @@ function initialize() {
 		console.log("An error occured while getting the DUID: " + error.message);
 	}
 
+	wsfPlayer.setVideoElement(document.getElementById("wsf-video"));
+
 	SpatialNavigation.init();
 	SpatialNavigation.add({
 		selector: "input, button, .video-list-item"
@@ -40,6 +44,7 @@ function initialize() {
 	document.addEventListener("sn:focused", function(event) {
 		//console.log(event);
 		let focusedElement = event.target;
+		lastFocusedItem = focusedElement;
 		let firstPart = focusedElement.id.split("-")[0];
 		let secondPart = focusedElement.id.split("-")[1];
 		let collectionIndex = Number(firstPart.split("c")[1]);
@@ -143,7 +148,16 @@ function handleKeyEvents() {
 			}
 
 			case "XF86Back": {
-				
+				if (!playingScreen.classList.contains("hidden")) {
+					if (wsfPlayer.isPlaying) {
+						wsfPlayer.stop();
+					}
+
+					playingScreen.classList.add("hidden");
+					collectionsScreen.classList.remove("hidden");
+
+					SpatialNavigation.focus(lastFocusedItem);
+				}
 
 				break;
 			}
@@ -154,12 +168,22 @@ function handleKeyEvents() {
 
 
 function handleEnterKey() {
-	var activeElement = document.activeElement;
+	let activeElement = document.activeElement;
 
 	if (activeElement.classList.contains("video-list-item")) {
+		let id = activeElement.id;
+		let dashIndex = id.indexOf("-");
+		let collIndex = id.substring(1, dashIndex);
+		//console.log("collIndex: " + collIndex);
+		let videoIndex = id.substr(dashIndex + 2, id.length - 1);
+		//console.log("videoIndex: " + videoIndex);
+
+		let videoLink = playlists[collIndex].items[videoIndex].link;
+		//console.log("videoLink: " + videoLink);
+
 		collectionsScreen.classList.add("hidden");
 		playingScreen.classList.remove("hidden");
 
-		
+		wsfPlayer.play(videoLink);
 	}
 }
