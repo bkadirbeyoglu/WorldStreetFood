@@ -1,11 +1,7 @@
 let wsfPlayer = {
-		
 	posValueAsPercentage: undefined,
-
 	videoElement: undefined,
-
 	hls: undefined,
-
 	isPlaying: false,
 	
 
