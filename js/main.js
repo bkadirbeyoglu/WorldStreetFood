@@ -156,7 +156,10 @@ function handleKeyEvents() {
 function handleEnterKey() {
 	var activeElement = document.activeElement;
 
-	if (!playingScreen.classList.contains("hidden")) {
+	if (activeElement.classList.contains("video-list-item")) {
+		collectionsScreen.classList.add("hidden");
+		playingScreen.classList.remove("hidden");
 
+		
 	}
 }
