@@ -1,5 +1,8 @@
 const KEYS_TO_BE_REGISTERED = ["MediaPause", "MediaPlay", "MediaPlayPause", "MediaStop", "MediaFastForward", "MediaRewind"];
 
+const playingScreen = document.getElementById("playing-screen");
+const collectionsScreen = document.getElementById("collections-screen");
+
 const divVideoTitle = document.getElementById("video-title");
 const divVideoDescription = document.getElementById("video-description");
 
@@ -17,7 +20,7 @@ function initialize() {
 		}
 	);
 
-	//handleKeyEvents();
+	handleKeyEvents();
 
 	//registerVisibilityChangeHandler();
 
@@ -124,4 +127,36 @@ function buildCollectionsScreen() {
 	var divFirstCollection = document.getElementById("collection-0");
 	var divFirstVideo = divFirstCollection.querySelector("#c0-v0");
 	SpatialNavigation.focus(divFirstVideo);
+}
+
+
+function handleKeyEvents() {
+	window.addEventListener("keydown", function(event) {
+		//console.log(event);
+		var activeElement = document.activeElement;
+
+		switch (event.key) {
+			case "Enter": {
+				handleEnterKey();
+
+				break;
+			}
+
+			case "XF86Back": {
+				
+
+				break;
+			}
+
+		};
+	});
+}
+
+
+function handleEnterKey() {
+	var activeElement = document.activeElement;
+
+	if (!playingScreen.classList.contains("hidden")) {
+
+	}
 }
