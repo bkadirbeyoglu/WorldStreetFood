@@ -71,6 +71,7 @@ html, body {
 
 
 #playing-screen {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -85,6 +86,17 @@ html, body {
 	width: 1920px;
   	height: 1080px;
 }
+
+#bottom-container {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 1920px;
+	height: 280px;
+	z-index: 99;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
 
 
 
