@@ -87,7 +87,7 @@ function initialize() {
 			else {
 				let collIndex = Number(elementToGetFocus.id.split("-")[0].split("c")[1]);
 				collections.scrollTop = collIndex * 309;		// 309 = 284 + 25 (.collection-row height + .collection-row margin-bottom)
-				//containerElement.scrollLeft = 0;
+				containerElement.scrollLeft = 0;
 			}	
 		}
 	});
