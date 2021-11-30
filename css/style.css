@@ -20,7 +20,6 @@ html, body {
 	z-index: 99;
 }
 
-
 #loading-screen.hidden {
 	display: none;
 }
