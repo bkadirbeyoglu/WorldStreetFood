@@ -146,6 +146,7 @@ let wsfPlayer = {
 
 			videoEl.addEventListener("canplay", function() {
 				console.log("video can play now...");
+				
 				hideLonelyLoader();
 			});
 

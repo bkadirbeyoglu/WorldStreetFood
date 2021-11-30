@@ -54,8 +54,14 @@ function initialize() {
 		let _lastIndexOfDot = str.split("|")[0].lastIndexOf(".");
 		let title = str.substr(0, _lastIndexOfDot);
 		let description = str.split("|")[1]; */
+		let divsVideoNumber = document.querySelectorAll(".video-number");
+		divsVideoNumber.forEach(div => div.classList.add("hidden"));
+		//let divVideoNumber = focusedElement.closest(".collection-row").querySelector(".video-number");
+		let divVideoNumber = divsVideoNumber[collectionIndex];
+		divVideoNumber.classList.remove("hidden");
+		divVideoNumber.innerHTML = Number(videoIndex + 1) + " of " + playlists[collectionIndex].items.length;
 		let title = playlists[collectionIndex].items[videoIndex].content.title;
-		let description = playlists[collectionIndex].items[videoIndex].content.description
+		let description = playlists[collectionIndex].items[videoIndex].content.description;
 		divVideoTitle.innerHTML = title;
 		divVideoDescription.innerHTML = description;
 	});
@@ -64,6 +70,7 @@ function initialize() {
 		let blurredElement = event.target;
 		let elementToGetFocus =  event.detail.nextElement;
 		let containerElement = blurredElement.parentElement;
+		let collections = document.getElementById("collections");
 		if (elementToGetFocus != undefined) {	
 			if (event.detail.direction == "left" || event.detail.direction == "right") {
 				if (elementToGetFocus.offsetLeft > blurredElement.offsetLeft) {
@@ -79,7 +86,8 @@ function initialize() {
 			}
 			else {
 				let collIndex = Number(elementToGetFocus.id.split("-")[0].split("c")[1]);
-				document.getElementById("collections").scrollTop = collIndex * 309;		// 309 = 284 + 25 (.collection-row height + .collection-row margin-bottom)					
+				collections.scrollTop = collIndex * 309;		// 309 = 284 + 25 (.collection-row height + .collection-row margin-bottom)
+				//containerElement.scrollLeft = 0;
 			}	
 		}
 	});
@@ -116,6 +124,12 @@ function buildCollectionsScreen() {
 			let divVideo = videoListItemTemplate[0].cloneNode(true);
 			divVideo.id = "c" + collIndex + "-v" + vidIndex;
 			divVideo.setAttribute("tabindex", "-1");
+			if (collIndex >= 1) {
+				divVideo.setAttribute("data-sn-up", "#c" + Number(collIndex - 1) + "-v0");
+			}
+			if (collIndex < len - 1) {
+				divVideo.setAttribute("data-sn-down", "#c" + Number(collIndex + 1) + "-v0");
+			}
 			if (vidIndex == 0) {
 				divVideo.setAttribute("data-sn-left", "");
 			}
@@ -130,8 +144,8 @@ function buildCollectionsScreen() {
 		divCollections.appendChild(divCollectionRow);
 	});
 
-	var divFirstCollection = document.getElementById("collection-0");
-	var divFirstVideo = divFirstCollection.querySelector("#c0-v0");
+	let divFirstCollection = document.getElementById("collection-0");
+	let divFirstVideo = divFirstCollection.querySelector("#c0-v0");
 	SpatialNavigation.focus(divFirstVideo);
 }
 
@@ -139,7 +153,7 @@ function buildCollectionsScreen() {
 function handleKeyEvents() {
 	window.addEventListener("keydown", function(event) {
 		//console.log(event);
-		var activeElement = document.activeElement;
+		let activeElement = document.activeElement;
 
 		switch (event.key) {
 			case "Enter": {
