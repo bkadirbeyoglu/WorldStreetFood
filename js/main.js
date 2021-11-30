@@ -6,6 +6,7 @@ const loadingScreen = document.getElementById("loading-screen");
 
 const divVideoTitle = document.getElementById("video-title");
 const divVideoDescription = document.getElementById("video-description");
+const divScreenshotPart = document.getElementById("screenshot-part");
 
 let lastFocusedItem;
 
@@ -59,6 +60,7 @@ function initialize() {
 		let description = playlists[collectionIndex].items[videoIndex].content.description;
 		divVideoTitle.innerHTML = title;
 		divVideoDescription.innerHTML = description;
+		divScreenshotPart.style.backgroundImage = "url(\'" + playlists[collectionIndex].items[videoIndex].content.thumbnail._url + "\')";
 	});
 
 	document.addEventListener("sn:willunfocus", function(event) {
