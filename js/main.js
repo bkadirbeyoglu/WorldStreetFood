@@ -50,13 +50,8 @@ function initialize() {
 		let secondPart = focusedElement.id.split("-")[1];
 		let collectionIndex = Number(firstPart.split("c")[1]);
 		let videoIndex = Number(secondPart.split("v")[1]);
-		/*let str = playlists[collectionIndex].items[videoIndex].title;
-		let _lastIndexOfDot = str.split("|")[0].lastIndexOf(".");
-		let title = str.substr(0, _lastIndexOfDot);
-		let description = str.split("|")[1]; */
 		let divsVideoNumber = document.querySelectorAll(".video-number");
 		divsVideoNumber.forEach(div => div.classList.add("hidden"));
-		//let divVideoNumber = focusedElement.closest(".collection-row").querySelector(".video-number");
 		let divVideoNumber = divsVideoNumber[collectionIndex];
 		divVideoNumber.classList.remove("hidden");
 		divVideoNumber.innerHTML = Number(videoIndex + 1) + " of " + playlists[collectionIndex].items.length;
@@ -92,7 +87,7 @@ function initialize() {
 		}
 	});
 
-	setTimeout(() => getChannelXML(), 2000);
+	setTimeout(() => getChannelXML(), 4000);
 }
 
 
@@ -108,7 +103,6 @@ function buildCollectionsScreen() {
 	let holderVLI = document.createElement('div');
 	holderVLI.innerHTML = templateVLI;
 	let videoListItemTemplate = holderVLI.childNodes;
-
 
 	// playlist = collection
 	playlists.forEach((collection, collIndex) => {
@@ -167,12 +161,7 @@ function handleKeyEvents() {
 					if (wsfPlayer.isPlaying) {
 						wsfPlayer.stop();
 					}
-
-					/* playingScreen.classList.add("hidden");
-					collectionsScreen.classList.remove("hidden"); */
 					displayCollectionsScreen();
-
-					//SpatialNavigation.focus(lastFocusedItem);
 				}
 
 				break;
@@ -190,15 +179,10 @@ function handleEnterKey() {
 		let id = activeElement.id;
 		let dashIndex = id.indexOf("-");
 		let collIndex = id.substring(1, dashIndex);
-		//console.log("collIndex: " + collIndex);
 		let videoIndex = id.substr(dashIndex + 2, id.length - 1);
-		//console.log("videoIndex: " + videoIndex);
-
 		let videoLink = playlists[collIndex].items[videoIndex].link;
 		//console.log("videoLink: " + videoLink);
 
-		/* collectionsScreen.classList.add("hidden");
-		playingScreen.classList.remove("hidden"); */
 		displayPlayingScreen();
 
 		wsfPlayer.play(videoLink);
@@ -207,6 +191,7 @@ function handleEnterKey() {
 
 
 function displayCollectionsScreen() {
+	hideLonelyLoader();
 	playingScreen.classList.add("hidden");
 	collectionsScreen.classList.remove("hidden");
 

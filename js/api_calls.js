@@ -15,6 +15,8 @@ let playlists = [];
 
 
 function getChannelXML() {
+    displayLonelyLoader();
+
     fetch("http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml", OPTIONS)
         .then((response) => {
             if (response.status >= 200 && response.status <= 299) {
@@ -44,11 +46,8 @@ function getChannelXML() {
 
                     playlists.find(pl => pl.title == playlist).items.push(item);
                 });
-                console.log(playlists);
 
-                document.getElementById("splash-screen").classList.add("hidden");
-                document.getElementById("collections-screen").classList.remove("hidden");
-                buildCollectionsScreen();
+                getCollectionList();
 			}
         })
         .catch(err => console.error(err));
@@ -110,19 +109,9 @@ function getVideosInCollections() {
                 collections[index].videos = res.value.items;
             }
         });
-        console.log(collections);
 
-        getChannelXML().then(function(xmlData) {
-            console.log(xmlData);
-
-            document.getElementById("splash-screen").classList.add("hidden");
-            document.getElementById("collections-screen").classList.remove("hidden");
-            buildCollectionsScreen();
-        });
-
-        /* document.getElementById("splash-screen").classList.add("hidden");
-        document.getElementById("collections-screen").classList.remove("hidden");
-        buildCollectionsScreen(); */
+        buildCollectionsScreen();
+        displayCollectionsScreen();
     });
 }
 
