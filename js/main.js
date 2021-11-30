@@ -3,6 +3,7 @@ const KEYS_TO_BE_REGISTERED = ["MediaPause", "MediaPlay", "MediaPlayPause", "Med
 const playingScreen = document.getElementById("playing-screen");
 const collectionsScreen = document.getElementById("collections-screen");
 
+const lonelyLoader = document.getElementById("lonely-loader");
 const divVideoTitle = document.getElementById("video-title");
 const divVideoDescription = document.getElementById("video-description");
 
@@ -153,10 +154,11 @@ function handleKeyEvents() {
 						wsfPlayer.stop();
 					}
 
-					playingScreen.classList.add("hidden");
-					collectionsScreen.classList.remove("hidden");
+					/* playingScreen.classList.add("hidden");
+					collectionsScreen.classList.remove("hidden"); */
+					displayCollectionsScreen();
 
-					SpatialNavigation.focus(lastFocusedItem);
+					//SpatialNavigation.focus(lastFocusedItem);
 				}
 
 				break;
@@ -181,9 +183,37 @@ function handleEnterKey() {
 		let videoLink = playlists[collIndex].items[videoIndex].link;
 		//console.log("videoLink: " + videoLink);
 
-		collectionsScreen.classList.add("hidden");
-		playingScreen.classList.remove("hidden");
+		/* collectionsScreen.classList.add("hidden");
+		playingScreen.classList.remove("hidden"); */
+		displayPlayingScreen();
 
 		wsfPlayer.play(videoLink);
 	}
+}
+
+
+function displayCollectionsScreen() {
+	playingScreen.classList.add("hidden");
+	collectionsScreen.classList.remove("hidden");
+
+	if (lastFocusedItem != undefined) {
+		SpatialNavigation.focus(lastFocusedItem);
+	}
+}
+
+
+function displayPlayingScreen() {
+	collectionsScreen.classList.add("hidden");
+	playingScreen.classList.remove("hidden");
+	displayLonelyLoader();
+}
+
+
+function displayLonelyLoader() {
+	lonelyLoader.classList.remove("hidden");
+}
+
+
+function hideLonelyLoader() {
+	lonelyLoader.classList.add("hidden");
 }

@@ -10,6 +10,21 @@ html, body {
 }
 
 
+#lonely-loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -30px;
+	margin-top: -30px;
+	border: 12px solid #f3f3f3; /* Light grey */
+  	border-top: 12px solid #474278;
+  	border-radius: 50%;
+  	width: 60px;
+  	height: 60px;
+  	animation: spin 2s linear infinite;
+}
+
+
 #splash-screen {
 	background-image: url('/images/splash_fhd.jpg');
 	width: 1920px;
@@ -89,12 +104,20 @@ html, body {
 
 #bottom-container {
 	position: absolute;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	bottom: 0;
 	left: 0;
 	width: 1920px;
 	height: 280px;
 	z-index: 99;
 	background-color: rgba(0, 0, 0, 0.5);
+}
+
+#title {
+	font-size: 28px;
 }
 
 
@@ -170,4 +193,9 @@ html, body {
 
 .hidden {
 	display: none;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
