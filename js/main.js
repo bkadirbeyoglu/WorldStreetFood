@@ -2,8 +2,8 @@ const KEYS_TO_BE_REGISTERED = ["MediaPause", "MediaPlay", "MediaPlayPause", "Med
 
 const playingScreen = document.getElementById("playing-screen");
 const collectionsScreen = document.getElementById("collections-screen");
+const loadingScreen = document.getElementById("loading-screen");
 
-const lonelyLoader = document.getElementById("lonely-loader");
 const divVideoTitle = document.getElementById("video-title");
 const divVideoDescription = document.getElementById("video-description");
 
@@ -87,7 +87,10 @@ function initialize() {
 		}
 	});
 
-	setTimeout(() => getChannelXML(), 4000);
+	setTimeout(() => {
+		displayLoadingScreen();
+		getChannelXML();
+	}, 4000);
 }
 
 
@@ -121,7 +124,7 @@ function buildCollectionsScreen() {
 			if (collIndex >= 1) {
 				divVideo.setAttribute("data-sn-up", "#c" + Number(collIndex - 1) + "-v0");
 			}
-			if (collIndex < len - 1) {
+			if (collIndex < playlists.length - 1) {
 				divVideo.setAttribute("data-sn-down", "#c" + Number(collIndex + 1) + "-v0");
 			}
 			if (vidIndex == 0) {
@@ -191,7 +194,7 @@ function handleEnterKey() {
 
 
 function displayCollectionsScreen() {
-	hideLonelyLoader();
+	hideLoadingScreen();
 	playingScreen.classList.add("hidden");
 	collectionsScreen.classList.remove("hidden");
 
@@ -204,15 +207,15 @@ function displayCollectionsScreen() {
 function displayPlayingScreen() {
 	collectionsScreen.classList.add("hidden");
 	playingScreen.classList.remove("hidden");
-	displayLonelyLoader();
+	displayLoadingScreen();
 }
 
 
-function displayLonelyLoader() {
-	lonelyLoader.classList.remove("hidden");
+function displayLoadingScreen() {
+	loadingScreen.classList.remove("hidden");
 }
 
 
-function hideLonelyLoader() {
-	lonelyLoader.classList.add("hidden");
+function hideLoadingScreen() {
+	loadingScreen.classList.add("hidden");
 }

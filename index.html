@@ -6,11 +6,18 @@
 </head>
 <body>
 
-    <div id="lonely-loader" class="hidden"></div>
+    <div id="loading-screen" class="screen hidden">
+        <div class="animated-loading-dot animated-loading-dot-0"></div>
+        <div class="animated-loading-dot animated-loading-dot-1"></div>
+        <div class="animated-loading-dot animated-loading-dot-2"></div>
+        <div class="animated-loading-dot animated-loading-dot-3"></div>
+        <div class="animated-loading-dot animated-loading-dot-4"></div>
+        <div class="animated-loading-dot animated-loading-dot-5"></div>
+    </div>
     
-    <div id="splash-screen" class="screen" data-screen-index="0"></div>
+    <div id="splash-screen" class="screen"></div>
 
-    <div id="collections-screen" class="screen" data-screen-index="1">
+    <div id="collections-screen" class="screen">
         <div class="half-height-screen">
            <div id="logo"></div>
            <div id="video-title-and-description">
@@ -23,7 +30,7 @@
         </div>
     </div>
 
-    <div id="playing-screen" class="screen" data-screen-index="1">
+    <div id="playing-screen" class="screen">
         <video id="wsf-video" src=""></video>		
 		<div id="bottom-container">
             <div id="title"></div>

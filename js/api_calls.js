@@ -15,8 +15,6 @@ let playlists = [];
 
 
 function getChannelXML() {
-    displayLonelyLoader();
-
     fetch("http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml", OPTIONS)
         .then((response) => {
             if (response.status >= 200 && response.status <= 299) {
