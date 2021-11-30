@@ -62,6 +62,7 @@ function initialize() {
 	});
 
 	document.addEventListener("sn:willunfocus", function(event) {
+		//console.log(event);
 		let blurredElement = event.target;
 		let elementToGetFocus =  event.detail.nextElement;
 		let containerElement = blurredElement.parentElement;
