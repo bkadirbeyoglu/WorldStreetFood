@@ -9,6 +9,8 @@ const divVideoDescription = document.getElementById("video-description");
 const divScreenshotPart = document.getElementById("screenshot-part");
 
 const progress = document.getElementById("progress");
+const elapsedTime = document.getElementById("elapsed-time");
+const timeLeft = document.getElementById("time-left");
 
 let lastFocusedItem;
 
@@ -231,7 +233,8 @@ function hideLoadingScreen() {
 }
 
 
-function secondsToHHMMSS(totalSeconds) {	
+function secondsToHHMMSS(totalSeconds) {
+	console.log(totalSeconds);
 	totalSeconds = Number(totalSeconds);
 	var hours = Math.floor(totalSeconds / 3600);
     var minutes = Math.floor(totalSeconds % 3600 / 60);

@@ -97,34 +97,9 @@ let wsfPlayer = {
 
 		seekBar.style.width = (value * 19.00) + "px";
 		/* if (seekBarContainer.style.opacity == 1) {
-			if (isPlayingLiveStream) {
-				wsfPlayer.displayTimePositionsAsSofiaLocalTime();
-			}
-			else {
-				wsfPlayer.displayElapsedTimeAndDurationForRecordings();
-			}
-			//wsfPlayer.displayTimePositionsAsSofiaLocalTime();
+			
 		} */
 	},
-
-	/* displayTimePositionsAsSofiaLocalTime: function() {
-		currentTimePos.innerHTML = secondsToText(this.videoElement.duration - this.videoElement.currentTime);
-		currentTimePos.style.marginLeft = Number((this.posValueAsPercentage * 19.00) - 120) + "px";
-		startTimePosition.classList.remove("hidden");
-		startTimePosition.innerHTML = secondsToText(this.videoElement.duration);
-		liveTimePosition.style.marginLeft = "1660px";
-		liveTimePosition.innerHTML = secondsToText(0);
-	},
-	
-	displayElapsedTimeAndDurationForRecordings: function() {
-		currentTimePos.innerHTML = secondsToTextAsDuration(this.videoElement.currentTime);
-		currentTimePos.style.marginLeft = Number((this.posValueAsPercentage * 19.00)) + "px";
-		//startTimePosition.innerHTML = secondsToTextAsDuration(0);
-		startTimePosition.classList.add("hidden");
-		//liveTimePosition is the actual duration of the recording.
-		liveTimePosition.style.marginLeft = "1780px";
-		liveTimePosition.innerHTML = secondsToTextAsDuration(this.videoElement.duration);
-	}, */
 
 	addEventListeners: function() {
 		let videoEl = this.videoElement;
@@ -163,16 +138,11 @@ let wsfPlayer = {
 				let value = (videoEl.currentTime / videoEl.duration) * 100.0;
 				wsfPlayer.posValueAsPercentage = value;
 
-				// Update the slider value
 				progress.style.width = (value * 15.00) + "px";
+				elapsedTime.innerHTML = secondsToHHMMSS(videoEl.currentTime);
+				timeLeft.innerHTML = secondsToHHMMSS(videoEl.duration - videoEl.currentTime);
 				//if (seekBarContainer.style.opacity == 1) {
-					/* if (isPlayingLiveStream) {
-						wsfPlayer.displayTimePositionsAsSofiaLocalTime();
-					}
-					else {
-						wsfPlayer.displayElapsedTimeAndDurationForRecordings();
-					} */
-					//wsfPlayer.displayTimePositionsAsSofiaLocalTime();
+					
 				//}			
 			});
 
