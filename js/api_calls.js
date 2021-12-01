@@ -1,7 +1,5 @@
 //const ACCESS_KEY = "94145170-a02c-430c-afd257165891-d3a1-44cf";
 //const LIBRARY_ID = 13766;
-const URL_ROKU_XML = "http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml";
-
 /* const OPTIONS = {
     method: "GET",
     headers: {
@@ -10,13 +8,18 @@ const URL_ROKU_XML = "http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml";
     }
 }; */
 
+const URL_ROKU_XML = "http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml";
+
 let playlists = [];
 
 
 function getChannelXML() {
-    fetch(URL_ROKU_XML)
+    tryAtMost(5, function(resolve, reject) {
+        fetch(URL_ROKU_XML)
         .then((response) => {
             if (response.status >= 200 && response.status <= 299) {
+                resolve(response);
+
                 return response.text();
             } 
             else {
@@ -49,7 +52,13 @@ function getChannelXML() {
                 displayCollectionsScreen();
 			}
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+            console.error(err);
+
+            reject(err);
+        });
+    });
+        
 }
 
 
