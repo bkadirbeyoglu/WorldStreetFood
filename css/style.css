@@ -26,7 +26,7 @@ html, body {
 
 
 #splash-screen {
-	background-image: url('/images/splash_fhd.png');
+	background-image: url('/images/splash_screen_image.png');
 	width: 1920px;
 	height: 1080px;
 	background-size: contain;
