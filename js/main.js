@@ -8,6 +8,8 @@ const divVideoTitle = document.getElementById("video-title");
 const divVideoDescription = document.getElementById("video-description");
 const divScreenshotPart = document.getElementById("screenshot-part");
 
+const progress = document.getElementById("progress");
+
 let lastFocusedItem;
 
 let selectedVideoItem;
@@ -226,4 +228,32 @@ function displayLoadingScreen() {
 
 function hideLoadingScreen() {
 	loadingScreen.classList.add("hidden");
+}
+
+
+function secondsToHHMMSS(totalSeconds) {	
+	totalSeconds = Number(totalSeconds);
+	var hours = Math.floor(totalSeconds / 3600);
+    var minutes = Math.floor(totalSeconds % 3600 / 60);
+    var seconds = Math.floor(totalSeconds % 3600 % 60);
+
+  	var result = (hours < 10 ? "0" + hours : hours);
+    result += ":" + (minutes < 10 ? "0" + minutes : minutes);
+    result += ":" + (seconds  < 10 ? "0" + seconds : seconds);
+  	
+	return result;
+}
+
+
+function hHMMSSToSeconds(str) {
+    var p = str.split(":");
+	var s = 0;
+	var m = 1;
+
+    while (p.length > 0) {
+        s += m * parseInt(p.pop(), 10);
+        m *= 60;
+    }
+
+    return s;
 }

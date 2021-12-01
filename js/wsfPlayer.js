@@ -164,7 +164,7 @@ let wsfPlayer = {
 				wsfPlayer.posValueAsPercentage = value;
 
 				// Update the slider value
-				//seekBar.style.width = (value * 19.00) + "px";
+				progress.style.width = (value * 15.00) + "px";
 				//if (seekBarContainer.style.opacity == 1) {
 					/* if (isPlayingLiveStream) {
 						wsfPlayer.displayTimePositionsAsSofiaLocalTime();

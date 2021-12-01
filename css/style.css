@@ -136,6 +136,58 @@ html, body {
 	font-size: 28px;
 }
 
+#progress-bar-container {
+	position: relative;
+	bottom: 80px;
+	left: 0px;
+	display: flex;
+	align-items: center;
+	width: 1920px;
+ 	height: 40px;
+}
+
+#progress-bar-container.hidden {
+	display: none;
+}
+
+#elapsed-time {
+	display: flex;
+	-webkit-display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 120px;
+	height: 40px;
+	margin-left: 80px;
+	background-color: transparent;
+}
+
+#progress-bar {
+	width: 1500px;
+	height: 25px;
+	margin-left: 10px;
+	margin-right: 10px;
+	background-color: rgba(238, 238, 238, 0.5);
+}
+
+#progress {
+	position: absolute;
+	width: 0px;
+	height: 25px;
+	background-color: rgba(128, 201, 65, 0.5);
+}
+
+#time-left {
+	display: flex;
+	display: -webkit-flex;
+	align-items: center;
+	justify-content: center;
+	width: 120px;
+	height: 40px;
+	margin-right: 80px;
+	background-color: transparent;
+}
+
+
 
 
 
