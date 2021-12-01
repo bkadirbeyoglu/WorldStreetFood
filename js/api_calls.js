@@ -1,20 +1,20 @@
-const ACCESS_KEY = "94145170-a02c-430c-afd257165891-d3a1-44cf";
-const LIBRARY_ID = 13766;
-//http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml
+//const ACCESS_KEY = "94145170-a02c-430c-afd257165891-d3a1-44cf";
+//const LIBRARY_ID = 13766;
+const URL_ROKU_XML = "http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml";
 
-const OPTIONS = {
+/* const OPTIONS = {
     method: "GET",
     headers: {
         Accept: "application/json",
         AccessKey: ACCESS_KEY
     }
-};
+}; */
 
 let playlists = [];
 
 
 function getChannelXML() {
-    fetch("http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml", OPTIONS)
+    fetch(URL_ROKU_XML)
         .then((response) => {
             if (response.status >= 200 && response.status <= 299) {
                 return response.text();
@@ -44,13 +44,16 @@ function getChannelXML() {
                     playlists.find(pl => pl.title == playlist).items.push(item);
                 });
 
-                getCollectionList();
+                //getCollectionList();
+                buildCollectionsScreen();
+                displayCollectionsScreen();
 			}
         })
         .catch(err => console.error(err));
 }
 
-function getCollectionList() {
+
+/* function getCollectionList() {
     const url = `http://video.bunnycdn.com/library/${LIBRARY_ID}/collections??page=1&itemsPerPage=100&orderBy=date`;
 
     return new Promise(function (resolve, reject) {
@@ -110,7 +113,7 @@ function getVideosInCollections() {
         buildCollectionsScreen();
         displayCollectionsScreen();
     });
-}
+} */
 
 
 function tryAtMost(triesLeft, executor) {
