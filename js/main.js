@@ -10,6 +10,8 @@ const divScreenshotPart = document.getElementById("screenshot-part");
 
 let lastFocusedItem;
 
+let selectedVideoItem;
+
 
 window.onload = function () {
 	initialize();
@@ -167,6 +169,7 @@ function handleKeyEvents() {
 					if (wsfPlayer.isPlaying) {
 						wsfPlayer.stop();
 					}
+					//selectedVideoItem = undefined;
 					displayCollectionsScreen();
 				}
 
@@ -186,12 +189,14 @@ function handleEnterKey() {
 		let dashIndex = id.indexOf("-");
 		let collIndex = id.substring(1, dashIndex);
 		let videoIndex = id.substr(dashIndex + 2, id.length - 1);
-		let videoLink = playlists[collIndex].items[videoIndex].link;
+		selectedVideoItem = playlists[collIndex].items[videoIndex];
+		//let videoLink = playlists[collIndex].items[videoIndex].link;
 		//console.log("videoLink: " + videoLink);
 
 		displayPlayingScreen();
 
-		wsfPlayer.play(videoLink);
+		//wsfPlayer.play(videoLink);
+		wsfPlayer.play(selectedVideoItem.link);
 	}
 }
 

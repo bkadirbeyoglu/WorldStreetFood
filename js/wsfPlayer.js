@@ -75,6 +75,7 @@ let wsfPlayer = {
 			wsfPlayer.hls.stopLoad();
 			wsfPlayer.hls.destroy();
 		}
+		document.getElementById("playing-video-title").innerHTML = "";
 	},
 
 	seekTo: function(isRewind, seekStepInSeconds) {
@@ -146,6 +147,8 @@ let wsfPlayer = {
 
 			videoEl.addEventListener("canplay", function() {
 				console.log("video can play now...");
+
+				document.getElementById("playing-video-title").innerHTML = selectedVideoItem.title;
 
 				hideLoadingScreen();
 			});

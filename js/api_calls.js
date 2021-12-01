@@ -10,7 +10,6 @@ const OPTIONS = {
     }
 };
 
-let playlistTitles = [];
 let playlists = [];
 
 
