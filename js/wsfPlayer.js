@@ -70,12 +70,12 @@ let wsfPlayer = {
 	},
 
 	stop: function() {
-		this.videoElement.pause();
+		//this.videoElement.pause();
+		this.pause();
 		if (wsfPlayer.hls != undefined) {
 			wsfPlayer.hls.stopLoad();
 			wsfPlayer.hls.destroy();
 		}
-		document.getElementById("playing-video-title").innerHTML = "";
 	},
 
 	seekTo: function(isRewind, seekStepInSeconds) {

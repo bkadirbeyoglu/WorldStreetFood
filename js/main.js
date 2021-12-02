@@ -161,20 +161,74 @@ function handleKeyEvents() {
 		//console.log(event);
 		let activeElement = document.activeElement;
 
-		switch (event.key) {
-			case "Enter": {
+		switch (event.keyCode) {
+			// Enter
+			case 13: {	
 				handleEnterKey();
 
 				break;
 			}
 
-			case "XF86Back": {
+			// Back
+			case 10009: {	
 				if (!playingScreen.classList.contains("hidden")) {
 					if (wsfPlayer.isPlaying) {
 						wsfPlayer.stop();
+
+						document.getElementById("playing-video-title").innerHTML = "";
 					}
 					//selectedVideoItem = undefined;
 					displayCollectionsScreen();
+				}
+
+				break;
+			}
+
+			// MediaPause
+			case 19: {
+				if (!playingScreen.classList.contains("hidden")) {
+					if (wsfPlayer.isPlaying) {
+						wsfPlayer.pause();
+					}
+				}
+
+				break;
+			}
+
+			// MediaStop
+			case 413: {
+				if (!playingScreen.classList.contains("hidden")) {
+					wsfPlayer.stop();
+
+					document.getElementById("playing-video-title").innerHTML = "";
+				}
+				displayCollectionsScreen();
+
+				break;
+			}
+
+			// MediaPlay
+			case 415: {
+				if (!playingScreen.classList.contains("hidden")) {
+					if (!wsfPlayer.isPlaying) {
+						// Directly calling the play method of the video element.
+						wsfPlayer.videoElement.play();
+					}
+				}
+
+				break;
+			}
+
+			// MediaPlayPause
+			case 10252: {
+				if (!playingScreen.classList.contains("hidden")) {
+					if (wsfPlayer.isPlaying) {
+						wsfPlayer.pause();
+					}
+					else {
+						// Directly calling the play method of the video element.
+						wsfPlayer.videoElement.play();
+					}
 				}
 
 				break;
@@ -234,7 +288,7 @@ function hideLoadingScreen() {
 
 
 function secondsToHHMMSS(totalSeconds) {
-	console.log(totalSeconds);
+	//console.log(totalSeconds);
 	totalSeconds = Number(totalSeconds);
 	var hours = Math.floor(totalSeconds / 3600);
     var minutes = Math.floor(totalSeconds % 3600 / 60);
