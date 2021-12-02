@@ -3,6 +3,8 @@ const KEYS_TO_BE_REGISTERED = ["MediaPause", "MediaPlay", "MediaPlayPause", "Med
 const INTERNET_CONNECTION_LOST = "Internet connection lost";
 const INTERNET_CONNECTION_RESTORED = "Internet connection restored";
 const MESSAGE_DISPLAY_DURATION = 4000;
+const AUTO_HIDE_BOTTOM_CONTAINER_DURATION = 4000;
+const REWIND_FAST_FORWARD_DEFAULT_STEP_IN_SECONDS = 20;
 
 const playingScreen = document.getElementById("playing-screen");
 const collectionsScreen = document.getElementById("collections-screen");
@@ -20,6 +22,8 @@ const divBottomContainer = document.getElementById("bottom-container");
 const progress = document.getElementById("progress");
 const elapsedTime = document.getElementById("elapsed-time");
 const timeLeft = document.getElementById("time-left");
+
+let timerIdAutoHideBottomContainer;
 
 let isInternetAvailable;
 
@@ -217,6 +221,8 @@ function handleKeyEvents() {
 				if (!playingScreen.classList.contains("hidden")) {
 					if (wsfPlayer.isPlaying) {
 						wsfPlayer.pause();
+
+						displayBottomContainer();
 					}
 				}
 
@@ -241,6 +247,8 @@ function handleKeyEvents() {
 					if (!wsfPlayer.isPlaying) {
 						// Directly calling the play method of the video element.
 						wsfPlayer.videoElement.play();
+
+						autoHideBottomContainer();
 					}
 				}
 
@@ -252,10 +260,14 @@ function handleKeyEvents() {
 				if (!playingScreen.classList.contains("hidden")) {
 					if (wsfPlayer.isPlaying) {
 						wsfPlayer.pause();
+
+						displayBottomContainer();
 					}
 					else {
 						// Directly calling the play method of the video element.
 						wsfPlayer.videoElement.play();
+
+						autoHideBottomContainer();
 					}
 				}
 
@@ -264,9 +276,11 @@ function handleKeyEvents() {
 
 			// MediaFastForward: 417
 			// ArrowRight: 39
-			case 417: {
+			case 417:
+			case 39: {
 				if (!playingScreen.classList.contains("hidden")) {
-					
+					displayBottomContainer();
+					wsfPlayer.seekTo(false, REWIND_FAST_FORWARD_DEFAULT_STEP_IN_SECONDS);
 				}
 
 				break;
@@ -274,9 +288,11 @@ function handleKeyEvents() {
 
 			// MediaRewind: 412
 			// ArrowLeft: 37
-			case 412: {
+			case 412:
+			case 37: {
 				if (!playingScreen.classList.contains("hidden")) {
-
+					displayBottomContainer();
+					wsfPlayer.seekTo(true, REWIND_FAST_FORWARD_DEFAULT_STEP_IN_SECONDS);
 				}
 
 				break;
@@ -381,6 +397,8 @@ function registerVisibilityChangeHandler() {
 			//log("document hidden");
 			if (!playingScreen.classList.contains("hidden")) {				
 				wsfPlayer.pause();
+
+				displayBottomContainer();
 			}						
 		} 
 		else {
@@ -388,6 +406,8 @@ function registerVisibilityChangeHandler() {
 			if (!playingScreen.classList.contains("hidden")) {
 				// Directly calling the play method of the video element.
 				wsfPlayer.videoElement.play();
+
+				autoHideBottomContainer();
 			}
 		}			
 	});
@@ -402,6 +422,8 @@ function registerNetworkStateChangeListener() {
 			isInternetAvailable = false;    	    		  	        		
 			if (!playingScreen.classList.contains("hidden")) {
 				wsfPlayer.pause();
+
+				displayBottomContainer();
 			}
 			displayStickyMessage(INTERNET_CONNECTION_LOST);
 			
@@ -414,9 +436,26 @@ function registerNetworkStateChangeListener() {
 			displayMessage(INTERNET_CONNECTION_RESTORED);
 			if (!playingScreen.classList.contains("hidden")) {
 				wsfPlayer.videoElement.play();
+
+				autoHideBottomContainer();
 			}  	    			        		
 		}
 	});
+}
+
+
+function displayBottomContainer() {
+	clearTimeout(timerIdAutoHideBottomContainer);
+	divBottomContainer.style.opacity = 1;
+}
+
+
+function autoHideBottomContainer() {
+	timerIdAutoHideBottomContainer = setTimeout(function() {
+		if (window.getComputedStyle(divBottomContainer).getPropertyValue("opacity") == 1) {
+			divBottomContainer.style.opacity = 0;
+		}
+	}, AUTO_HIDE_BOTTOM_CONTAINER_DURATION);
 }
 
 

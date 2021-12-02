@@ -10,22 +10,14 @@ let wsfPlayer = {
 		this.addEventListeners();
 	},
 
-	play: function(url, startPos) {		
+	play: function(url) {		
 		let videoEl = wsfPlayer.videoElement;
 		
 		this.posValueAsPercentage = 0;
 		
 		if (videoEl != undefined) {
 			if (Hls.isSupported()) {
-				let config = {
-					highBufferWatchdogPeriod: 0.1,
-					nudgeOffset: 1.1,
-				}
-				if (startPos != undefined) {
-					config.autoStartLoad = true;
-					config.startPosition = startPos;					
-				}				
-				let hls = new Hls(config);
+				let hls = new Hls();
 				wsfPlayer.hls = hls;
 				wsfPlayer.hls.loadSource(url);
 				wsfPlayer.hls.attachMedia(videoEl);
@@ -62,15 +54,12 @@ let wsfPlayer = {
 
 	pause: function() {
 		let videoEl = this.videoElement;
-		/* if (!isPlayingLiveStream) {
-			resumeVideoAtPos = videoEl.currentTime;
-		} */
 		this.isPlaying = false;
 		videoEl.pause();
 	},
 
 	stop: function() {
-		this.pause();
+		this.pause();	// ??? Uncaught (in promise) DOMException: The play() request was interrupted by a call to pause(). https://goo.gl/LdLk22 ???
 		if (wsfPlayer.hls != undefined) {
 			wsfPlayer.hls.stopLoad();
 			wsfPlayer.hls.destroy();
@@ -94,10 +83,9 @@ let wsfPlayer = {
 		let value = (videoEl.currentTime / videoEl.duration) * 100.0;
 		this.posValueAsPercentage = value; 
 
-		seekBar.style.width = (value * 19.00) + "px";
-		/* if (seekBarContainer.style.opacity == 1) {
-			
-		} */
+		progress.style.width = (value * 15.00) + "px";
+
+		this.videoElement.play();
 	},
 
 	addEventListeners: function() {
@@ -122,20 +110,22 @@ let wsfPlayer = {
 			videoEl.addEventListener("canplay", function() {
 				console.log("video can play now...");
 
+				hideLoadingScreen();
+
 				divPlayingVideoTitle.innerHTML = selectedVideoItem.title;
 				elapsedTime.innerHTML = "00:00:00";
 				timeLeft.innerHTML = "00:00:00";
 				elapsedTime.classList.remove("hidden");
 				timeLeft.classList.remove("hidden");
 				divBottomContainer.classList.remove("hidden");
-
-				hideLoadingScreen();
 			});
 
 			videoEl.addEventListener("playing", function() {
 				console.log("video is playing now...");
 
 				wsfPlayer.isPlaying = true;
+
+				autoHideBottomContainer();
 			})
 
 			videoEl.addEventListener("timeupdate", function() {
@@ -145,10 +135,7 @@ let wsfPlayer = {
 					progress.style.width = (value * 15.00) + "px";
 					elapsedTime.innerHTML = secondsToHHMMSS(videoEl.currentTime);
 					timeLeft.innerHTML = secondsToHHMMSS(videoEl.duration - videoEl.currentTime);
-				}
-				//if (seekBarContainer.style.opacity == 1) {
-					
-				//}			
+				}	
 			});
 
 			videoEl.addEventListener("suspend", function() {
@@ -177,27 +164,15 @@ let wsfPlayer = {
 
 			videoEl.addEventListener("seeked", function() {
 				console.log("seek operation completed.");
-				// videoEl.play();
+				//videoEl.play();
 			});
 
 			videoEl.addEventListener("stalled", function() {
-				//console.log('video stalled.');
+				console.log('video stalled.');
 			});
 
 			videoEl.addEventListener("ended", function() {
-				/* if (!isPlayingLiveStream) {
-					playingScreen.classList.add("hidden");
-					recordingListScreen.classList.remove("hidden");
-
-					let _itemToGetFocus = undefined;
-					_itemToGetFocus = document.querySelectorAll("[data-bid='" + recordingBid + "']")[0];
-					if (_itemToGetFocus == undefined) {						
-						_itemToGetFocus = document.getElementsByClassName("programme-list-item")[0];
-					}
-					SpatialNavigation.focus(_itemToGetFocus.id);
-					//recordingBid = undefined;
-					//playingRecordingTitle = undefined;
-				} */
+				
 			});
 
 			videoEl.addEventListener("error", function(err) {

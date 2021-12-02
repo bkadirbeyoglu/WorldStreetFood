@@ -130,6 +130,7 @@ html, body {
 	height: 280px;
 	z-index: 99;
 	background-color: rgba(0, 0, 0, 0.55);
+	opacity: 1;
 }
 
 #bottom-container.hidden {
