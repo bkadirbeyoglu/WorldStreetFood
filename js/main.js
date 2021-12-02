@@ -32,7 +32,7 @@ function initialize() {
 
 	handleKeyEvents();
 
-	//registerVisibilityChangeHandler();
+	registerVisibilityChangeHandler();
 
 	try {
 		duid = webapis.productinfo.getDuid();
@@ -284,6 +284,24 @@ function displayLoadingScreen() {
 
 function hideLoadingScreen() {
 	loadingScreen.classList.add("hidden");
+}
+
+
+function registerVisibilityChangeHandler() {	
+	document.addEventListener("visibilitychange", function() {		
+		if (document.hidden) {
+			//log("document hidden");
+			if (!playingScreen.classList.contains("hidden")) {				
+				wsfPlayer.pause();
+			}						
+		} 
+		else {
+			//log("document visible");
+			if (!playingScreen.classList.contains("hidden")) {
+				wsfPlayer.videoElement.play();
+			}
+		}			
+	});
 }
 
 
