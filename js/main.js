@@ -1,5 +1,9 @@
 const KEYS_TO_BE_REGISTERED = ["MediaPause", "MediaPlay", "MediaPlayPause", "MediaStop", "MediaFastForward", "MediaRewind"];
 
+const INTERNET_CONNECTION_LOST = "Internet connection lost";
+const INTERNET_CONNECTION_RESTORED = "Internet connection restored";
+const MESSAGE_DISPLAY_DURATION = 4000;
+
 const playingScreen = document.getElementById("playing-screen");
 const collectionsScreen = document.getElementById("collections-screen");
 const loadingScreen = document.getElementById("loading-screen");
@@ -8,9 +12,13 @@ const divVideoTitle = document.getElementById("video-title");
 const divVideoDescription = document.getElementById("video-description");
 const divScreenshotPart = document.getElementById("screenshot-part");
 
+const divMessageBox = document.getElementById("message-box");
+
 const progress = document.getElementById("progress");
 const elapsedTime = document.getElementById("elapsed-time");
 const timeLeft = document.getElementById("time-left");
+
+let isInternetAvailable;
 
 let lastFocusedItem;
 
@@ -33,6 +41,7 @@ function initialize() {
 	handleKeyEvents();
 
 	registerVisibilityChangeHandler();
+	registerNetworkStateChangeListener();
 
 	try {
 		duid = webapis.productinfo.getDuid();
@@ -302,6 +311,52 @@ function registerVisibilityChangeHandler() {
 			}
 		}			
 	});
+}
+
+
+function registerNetworkStateChangeListener() {
+	webapis.network.addNetworkStateChangeListener(function(value) {
+		if (value == webapis.network.NetworkState.GATEWAY_DISCONNECTED) {
+			//log("offline");
+			
+			isInternetAvailable = false;    	    		  	        		
+			if (!playingScreen.classList.contains("hidden")) {
+				wsfPlayer.pause();
+			}
+			displayStickyMessage(INTERNET_CONNECTION_LOST);
+			
+		} 
+		else if (value == webapis.network.NetworkState.GATEWAY_CONNECTED) {
+			//log("online");
+			
+			isInternetAvailable = true;
+			removeStickyMessage();
+			displayMessage(INTERNET_CONNECTION_RESTORED);
+			if (!playingScreen.classList.contains("hidden")) {
+				wsfPlayer.videoElement.play();
+			}  	    			        		
+		}
+	});
+}
+
+
+function displayMessage(messageText) {
+	divMessageBox.innerHTML = messageText;
+	divMessageBox.classList.remove("hidden");
+	
+	setTimeout(() => divMessageBox.classList.add("hidden"), MESSAGE_DISPLAY_DURATION);
+}
+
+
+function displayStickyMessage(messageText) {
+	divMessageBox.innerHTML = messageText;
+	divMessageBox.classList.remove("hidden");
+}
+
+
+function removeStickyMessage() {
+	divMessageBox.innerHTML = "";
+	divMessageBox.classList.add("hidden");
 }
 
 
