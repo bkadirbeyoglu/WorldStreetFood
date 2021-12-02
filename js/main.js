@@ -262,6 +262,25 @@ function handleKeyEvents() {
 				break;
 			}
 
+			// MediaFastForward: 417
+			// ArrowRight: 39
+			case 417: {
+				if (!playingScreen.classList.contains("hidden")) {
+					
+				}
+
+				break;
+			}
+
+			// MediaRewind: 412
+			// ArrowLeft: 37
+			case 412: {
+				if (!playingScreen.classList.contains("hidden")) {
+
+				}
+
+				break;
+			}
 		};
 	});
 }
