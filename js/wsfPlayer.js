@@ -70,7 +70,6 @@ let wsfPlayer = {
 	},
 
 	stop: function() {
-		//this.videoElement.pause();
 		this.pause();
 		if (wsfPlayer.hls != undefined) {
 			wsfPlayer.hls.stopLoad();

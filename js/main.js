@@ -7,6 +7,7 @@ const MESSAGE_DISPLAY_DURATION = 4000;
 const playingScreen = document.getElementById("playing-screen");
 const collectionsScreen = document.getElementById("collections-screen");
 const loadingScreen = document.getElementById("loading-screen");
+const exitConfirmationPopup = document.getElementById("exit-confirmation-popup");
 
 const divVideoTitle = document.getElementById("video-title");
 const divVideoDescription = document.getElementById("video-description");
@@ -55,53 +56,57 @@ function initialize() {
 
 	SpatialNavigation.init();
 	SpatialNavigation.add({
-		selector: "input, button, .video-list-item"
+		selector: "input, button, .video-list-item, .exit-confirmation-button"
 	});
 
 	document.addEventListener("sn:focused", function(event) {
 		//console.log(event);
-		let focusedElement = event.target;
-		lastFocusedItem = focusedElement;
-		let firstPart = focusedElement.id.split("-")[0];
-		let secondPart = focusedElement.id.split("-")[1];
-		let collectionIndex = Number(firstPart.split("c")[1]);
-		let videoIndex = Number(secondPart.split("v")[1]);
-		let divsVideoNumber = document.querySelectorAll(".video-number");
-		divsVideoNumber.forEach(div => div.classList.add("hidden"));
-		let divVideoNumber = divsVideoNumber[collectionIndex];
-		divVideoNumber.classList.remove("hidden");
-		divVideoNumber.innerHTML = Number(videoIndex + 1) + " of " + playlists[collectionIndex].items.length;
-		let title = playlists[collectionIndex].items[videoIndex].content.title;
-		let description = playlists[collectionIndex].items[videoIndex].content.description;
-		divVideoTitle.innerHTML = title;
-		divVideoDescription.innerHTML = description;
-		divScreenshotPart.style.backgroundImage = "url(\'" + playlists[collectionIndex].items[videoIndex].content.thumbnail._url + "\')";
+		if (event.target.classList.contains("video-list-item")) {
+			let focusedElement = event.target;
+			lastFocusedItem = focusedElement;
+			let firstPart = focusedElement.id.split("-")[0];
+			let secondPart = focusedElement.id.split("-")[1];
+			let collectionIndex = Number(firstPart.split("c")[1]);
+			let videoIndex = Number(secondPart.split("v")[1]);
+			let divsVideoNumber = document.querySelectorAll(".video-number");
+			divsVideoNumber.forEach(div => div.classList.add("hidden"));
+			let divVideoNumber = divsVideoNumber[collectionIndex];
+			divVideoNumber.classList.remove("hidden");
+			divVideoNumber.innerHTML = Number(videoIndex + 1) + " of " + playlists[collectionIndex].items.length;
+			let title = playlists[collectionIndex].items[videoIndex].content.title;
+			let description = playlists[collectionIndex].items[videoIndex].content.description;
+			divVideoTitle.innerHTML = title;
+			divVideoDescription.innerHTML = description;
+			divScreenshotPart.style.backgroundImage = "url(\'" + playlists[collectionIndex].items[videoIndex].content.thumbnail._url + "\')";
+		}
 	});
 
 	document.addEventListener("sn:willunfocus", function(event) {
 		//console.log(event);
-		let blurredElement = event.target;
-		let elementToGetFocus =  event.detail.nextElement;
-		let containerElement = blurredElement.parentElement;
-		let collections = document.getElementById("collections");
-		if (elementToGetFocus != undefined) {	
-			if (event.detail.direction == "left" || event.detail.direction == "right") {
-				if (elementToGetFocus.offsetLeft > blurredElement.offsetLeft) {
-					if (elementToGetFocus.offsetLeft >= (containerElement.scrollLeft + containerElement.offsetWidth * 0.90)) {
-						containerElement.scrollLeft += 414;		// 414 = 384 + 15 + 15 (.video-list-item width + .video-list-item margin-left + .video-list-item.margin-right)							
+		if (event.target.classList.contains("video-list-item")) {
+			let blurredElement = event.target;
+			let elementToGetFocus =  event.detail.nextElement;
+			let containerElement = blurredElement.parentElement;
+			let collections = document.getElementById("collections");
+			if (elementToGetFocus != undefined) {	
+				if (event.detail.direction == "left" || event.detail.direction == "right") {
+					if (elementToGetFocus.offsetLeft > blurredElement.offsetLeft) {
+						if (elementToGetFocus.offsetLeft >= (containerElement.scrollLeft + containerElement.offsetWidth * 0.90)) {
+							containerElement.scrollLeft += 414;		// 414 = 384 + 15 + 15 (.video-list-item width + .video-list-item margin-left + .video-list-item.margin-right)							
+						}
+					}
+					else {
+						if (elementToGetFocus.offsetLeft < (containerElement.scrollLeft + containerElement.offsetWidth * 0.05)) {
+							containerElement.scrollLeft -= 414;
+						}
 					}
 				}
 				else {
-					if (elementToGetFocus.offsetLeft < (containerElement.scrollLeft + containerElement.offsetWidth * 0.05)) {
-						containerElement.scrollLeft -= 414;
-					}
-				}
+					let collIndex = Number(elementToGetFocus.id.split("-")[0].split("c")[1]);
+					collections.scrollTop = collIndex * 309;		// 309 = 284 + 25 (.collection-row height + .collection-row margin-bottom)
+					containerElement.scrollLeft = 0;
+				}	
 			}
-			else {
-				let collIndex = Number(elementToGetFocus.id.split("-")[0].split("c")[1]);
-				collections.scrollTop = collIndex * 309;		// 309 = 284 + 25 (.collection-row height + .collection-row margin-bottom)
-				containerElement.scrollLeft = 0;
-			}	
 		}
 	});
 
@@ -188,6 +193,14 @@ function handleKeyEvents() {
 					}
 					//selectedVideoItem = undefined;
 					displayCollectionsScreen();
+
+					return;
+				}
+
+				if (!collectionsScreen.classList.contains("hidden")) {
+					displayExitConfirmationPopup();
+
+					return;
 				}
 
 				break;
@@ -296,6 +309,12 @@ function hideLoadingScreen() {
 }
 
 
+function displayExitConfirmationPopup() {
+	exitConfirmationPopup.classList.remove("hidden");
+	SpatialNavigation.focus(document.getElementById("exit-confirmation-button-no"));
+}
+
+
 function registerVisibilityChangeHandler() {	
 	document.addEventListener("visibilitychange", function() {		
 		if (document.hidden) {
@@ -307,6 +326,7 @@ function registerVisibilityChangeHandler() {
 		else {
 			//log("document visible");
 			if (!playingScreen.classList.contains("hidden")) {
+				// Directly calling the play method of the video element.
 				wsfPlayer.videoElement.play();
 			}
 		}			
