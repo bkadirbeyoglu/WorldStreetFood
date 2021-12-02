@@ -21,7 +21,7 @@ const timeLeft = document.getElementById("time-left");
 
 let isInternetAvailable;
 
-let lastFocusedItem;
+let lastFocusedVideoItem;
 
 let selectedVideoItem;
 
@@ -63,7 +63,7 @@ function initialize() {
 		//console.log(event);
 		if (event.target.classList.contains("video-list-item")) {
 			let focusedElement = event.target;
-			lastFocusedItem = focusedElement;
+			lastFocusedVideoItem = focusedElement;
 			let firstPart = focusedElement.id.split("-")[0];
 			let secondPart = focusedElement.id.split("-")[1];
 			let collectionIndex = Number(firstPart.split("c")[1]);
@@ -177,7 +177,7 @@ function handleKeyEvents() {
 
 		switch (event.keyCode) {
 			// Enter
-			case 13: {	
+			case 13: {
 				handleEnterKey();
 
 				break;
@@ -277,6 +277,19 @@ function handleEnterKey() {
 
 		//wsfPlayer.play(videoLink);
 		wsfPlayer.play(selectedVideoItem.link);
+
+		return;
+	}
+
+	if (activeElement.id == "exit-confirmation-button-no") {
+		hideExitConfirmationPopup();
+
+		return;
+	}
+	if (activeElement.id == "exit-confirmation-button-yes") {
+		tizen.application.getCurrentApplication().exit();
+		
+		return;
 	}
 }
 
@@ -286,8 +299,8 @@ function displayCollectionsScreen() {
 	playingScreen.classList.add("hidden");
 	collectionsScreen.classList.remove("hidden");
 
-	if (lastFocusedItem != undefined) {
-		SpatialNavigation.focus(lastFocusedItem);
+	if (lastFocusedVideoItem != undefined) {
+		SpatialNavigation.focus(lastFocusedVideoItem);
 	}
 }
 
@@ -312,6 +325,28 @@ function hideLoadingScreen() {
 function displayExitConfirmationPopup() {
 	exitConfirmationPopup.classList.remove("hidden");
 	SpatialNavigation.focus(document.getElementById("exit-confirmation-button-no"));
+
+	/* This section is just a hack to prevent the scrolling to the to collection when displaying the exit confirmation popup */
+	let firstPart = lastFocusedVideoItem.id.split("-")[0];
+	let collectionIndex = Number(firstPart.split("c")[1]);
+	collections.scrollTop = collectionIndex * 309;
+}
+
+
+function hideExitConfirmationPopup() {
+	exitConfirmationPopup.classList.add("hidden");
+	
+	/* This section is just a hack to correct the scrolling issues occuring after canceling to exit the app in exit confirmation popup */
+	let firstPart = lastFocusedVideoItem.id.split("-")[0];
+	let secondPart = lastFocusedVideoItem.id.split("-")[1];
+	let collectionIndex = Number(firstPart.split("c")[1]);
+	let videoIndex = Number(secondPart.split("v")[1]);
+	collections.scrollTop = collectionIndex * 309;		// 309 = 284 + 25 (.collection-row height + .collection-row margin-bottom)
+	lastFocusedVideoItem.parentElement.scrollLeft = 0;
+	SpatialNavigation.focus("#c" + collectionIndex + "-v0");
+	for (let i = 0; i < videoIndex; i++) {
+		SpatialNavigation.move("right");
+	}
 }
 
 

@@ -201,7 +201,7 @@ html, body {
 	width: 55%;
 	height: 55%;
 	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.88);
+	background-color: rgba(0, 0, 0, 0.90);
     /* border-radius: 20px; */
 	border: 5px solid #4A4273;
 }
@@ -317,7 +317,7 @@ html, body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 3px;
+	/* border-radius: 3px; */
 	border: 2px solid #5E5781;
 	background-color: #474278;
 	min-width: 200px;
