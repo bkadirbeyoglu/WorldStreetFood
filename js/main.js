@@ -15,6 +15,7 @@ const divScreenshotPart = document.getElementById("screenshot-part");
 
 const divMessageBox = document.getElementById("message-box");
 
+const divBottomContainer = document.getElementById("bottom-container");
 const progress = document.getElementById("progress");
 const elapsedTime = document.getElementById("elapsed-time");
 const timeLeft = document.getElementById("time-left");

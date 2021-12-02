@@ -123,6 +123,7 @@ let wsfPlayer = {
 				console.log("video can play now...");
 
 				document.getElementById("playing-video-title").innerHTML = selectedVideoItem.title;
+				divBottomContainer.classList.remove("hidden");
 
 				hideLoadingScreen();
 			});
