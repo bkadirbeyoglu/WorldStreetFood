@@ -113,8 +113,6 @@ let wsfPlayer = {
 				hideLoadingScreen();
 
 				divPlayingVideoTitle.innerHTML = selectedVideoItem.title;
-				elapsedTime.innerHTML = "00:00:00";
-				timeLeft.innerHTML = "00:00:00";
 				elapsedTime.classList.remove("hidden");
 				timeLeft.classList.remove("hidden");
 				divBottomContainer.classList.remove("hidden");
