@@ -15,6 +15,7 @@ const divScreenshotPart = document.getElementById("screenshot-part");
 
 const divMessageBox = document.getElementById("message-box");
 
+const divPlayingVideoTitle = document.getElementById("playing-video-title");
 const divBottomContainer = document.getElementById("bottom-container");
 const progress = document.getElementById("progress");
 const elapsedTime = document.getElementById("elapsed-time");
@@ -187,11 +188,15 @@ function handleKeyEvents() {
 			// Back
 			case 10009: {	
 				if (!playingScreen.classList.contains("hidden")) {
-					if (wsfPlayer.isPlaying) {
-						wsfPlayer.stop();
+					wsfPlayer.stop();
 
-						document.getElementById("playing-video-title").innerHTML = "";
-					}
+					divPlayingVideoTitle.innerHTML = "";
+					elapsedTime.innerHTML = "00:00:00";
+					timeLeft.innerHTML = "00:00:00";
+					elapsedTime.classList.add("hidden");
+					timeLeft.classList.add("hidden");
+					divBottomContainer.classList.add("hidden");
+					
 					//selectedVideoItem = undefined;
 					displayCollectionsScreen();
 

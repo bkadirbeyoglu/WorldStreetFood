@@ -122,7 +122,11 @@ let wsfPlayer = {
 			videoEl.addEventListener("canplay", function() {
 				console.log("video can play now...");
 
-				document.getElementById("playing-video-title").innerHTML = selectedVideoItem.title;
+				divPlayingVideoTitle.innerHTML = selectedVideoItem.title;
+				elapsedTime.innerHTML = "00:00:00";
+				timeLeft.innerHTML = "00:00:00";
+				elapsedTime.classList.remove("hidden");
+				timeLeft.classList.remove("hidden");
 				divBottomContainer.classList.remove("hidden");
 
 				hideLoadingScreen();
@@ -135,12 +139,13 @@ let wsfPlayer = {
 			})
 
 			videoEl.addEventListener("timeupdate", function() {
-				let value = (videoEl.currentTime / videoEl.duration) * 100.0;
-				wsfPlayer.posValueAsPercentage = value;
-
-				progress.style.width = (value * 15.00) + "px";
-				elapsedTime.innerHTML = secondsToHHMMSS(videoEl.currentTime);
-				timeLeft.innerHTML = secondsToHHMMSS(videoEl.duration - videoEl.currentTime);
+				if (videoEl.currentTime >= 0 && videoEl.duration >= 0) {
+					let value = (videoEl.currentTime / videoEl.duration) * 100.0;
+					wsfPlayer.posValueAsPercentage = value;
+					progress.style.width = (value * 15.00) + "px";
+					elapsedTime.innerHTML = secondsToHHMMSS(videoEl.currentTime);
+					timeLeft.innerHTML = secondsToHHMMSS(videoEl.duration - videoEl.currentTime);
+				}
 				//if (seekBarContainer.style.opacity == 1) {
 					
 				//}			
