@@ -1,3 +1,5 @@
+const DEBUG_CONSOLE_ENABLED = false;
+
 const KEYS_TO_BE_REGISTERED = ["MediaPause", "MediaPlay", "MediaPlayPause", "MediaStop", "MediaFastForward", "MediaRewind"];
 
 const INTERNET_CONNECTION_LOST = "Internet connection lost";
@@ -5,6 +7,8 @@ const INTERNET_CONNECTION_RESTORED = "Internet connection restored";
 const MESSAGE_DISPLAY_DURATION = 4000;
 const AUTO_HIDE_BOTTOM_CONTAINER_DURATION = 4000;
 const REWIND_FAST_FORWARD_DEFAULT_STEP_IN_SECONDS = 20;
+
+const debugConsole = document.getElementById("debug-console");
 
 const playingScreen = document.getElementById("playing-screen");
 const collectionsScreen = document.getElementById("collections-screen");
@@ -39,6 +43,8 @@ window.onload = function () {
 
 
 function initialize() {
+	DEBUG_CONSOLE_ENABLED ? debugConsole.classList.remove("hidden") : debugConsole.classList.add("hidden");
+
 	tizen.tvinputdevice.registerKeyBatch(KEYS_TO_BE_REGISTERED,
 		function successCallback() { },
 		function errorCallback(error) {
@@ -53,7 +59,8 @@ function initialize() {
 
 	try {
 		duid = webapis.productinfo.getDuid();
-		console.log("DUID: " + duid);
+		//console.log("DUID: " + duid);
+		log("DUID: " + duid);
 	}
 	catch (error) {
 		console.log("An error occured while getting the DUID: " + error.message);
@@ -359,6 +366,8 @@ function displayPlayingScreen() {
 
 
 function displayLoadingScreen() {
+	log("displayLoadingScreen() ...");
+
 	loadingScreen.classList.remove("hidden");
 }
 
@@ -510,4 +519,24 @@ function hHMMSSToSeconds(str) {
     }
 
     return s;
+}
+
+
+function writeToDebugConsole(logItem) {
+	var divDebugConsoleText = document.getElementById("debug-console-text");
+	
+	if (divDebugConsoleText.offsetHeight >= 640) {
+		divDebugConsoleText.innerHTML = "";
+	}
+	divDebugConsoleText.innerHTML += "*** " + logItem + "</BR>";
+}
+
+
+function log(message) {
+	if (DEBUG_CONSOLE_ENABLED) {
+		writeToDebugConsole(message);
+	}
+	else {
+		console.log(message);
+	}
 }

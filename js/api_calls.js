@@ -8,13 +8,16 @@
     }
 }; */
 
-//const URL_ROKU_XML = "http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml";
-const URL_ROKU_XML = "https://raw.githubusercontent.com/bkadirbeyoglu/WorldStreetFood/master/data/roku.xml";
+const URL_ROKU_XML = "https://rokuawgserver.ddns.net/ctv/channels/1/roku.xml";
+//const URL_ROKU_XML = "https://raw.githubusercontent.com/bkadirbeyoglu/WorldStreetFood/master/data/roku.xml";
 
 let playlists = [];
 
 
 function getChannelXML() {
+    log("getChannelXML() ...");
+    log(URL_ROKU_XML);
+
     tryAtMost(5, function(resolve, reject) {
         fetch(URL_ROKU_XML)
         .then((response) => {
@@ -28,6 +31,8 @@ function getChannelXML() {
             }
         })
         .then(response => {
+            log(response.length);
+
             if (window.DOMParser) {
 				parser = new DOMParser();
 				let xmlDoc = parser.parseFromString(response, "text/xml");
@@ -54,7 +59,8 @@ function getChannelXML() {
 			}
         })
         .catch(err => {
-            console.error(err);
+            log(err);
+            //console.error(err);
 
             reject(err);
         });

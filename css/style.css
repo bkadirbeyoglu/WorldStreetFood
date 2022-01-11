@@ -10,6 +10,22 @@ html, body {
 }
 
 
+#debug-console {	
+	position: absolute;
+	top: 20px;
+	right: 50px;
+	width: 840px;
+	height: 650px;
+	padding: 10px;
+	font: 18px 'SamsungSVD_Latin Medium';
+	line-height: 24px;
+	background-color: azure;
+	color: black;
+	z-index: 9999;
+	overflow: hidden;
+}
+
+
 #loading-screen {
 	position: absolute;
 	top: 0;
