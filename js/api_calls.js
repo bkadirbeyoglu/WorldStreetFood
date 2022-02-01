@@ -8,7 +8,7 @@
     }
 }; */
 
-const URL_ROKU_XML = "https://rokuawgserver.ddns.net/ctv/channels/1/roku.xml";
+const URL_ROKU_XML = "http://rokuawgserver.ddns.net/ctv/channels/1/roku.xml";
 //const URL_ROKU_XML = "https://raw.githubusercontent.com/bkadirbeyoglu/WorldStreetFood/master/data/roku.xml";
 
 let playlists = [];
